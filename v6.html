@@ -1,0 +1,2181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WorldMusicNow — The World's Music Pulse</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --void:#09090e;--deep:#0d0d15;--surface:#11111c;--card:#161622;--card2:#1b1b2a;
+  --border:rgba(255,255,255,.07);--border2:rgba(255,255,255,.13);
+  --text:#eeeef8;--muted:#8888a0;--dim:#555570;
+  --accent:#7c3aed;--accent2:#9d5cf6;--accent3:#c084fc;
+  --gold:#f59e0b;--red:#ef4444;--green:#00d97e;--pink:#ec4899;--cyan:#06b6d4;--orange:#f97316;
+  --radius:12px;--radius-sm:8px;
+  --font:'Space Grotesk',system-ui,sans-serif;
+  --font-d:'Playfair Display',Georgia,serif;
+  --font-m:'JetBrains Mono',monospace;
+}
+html{scroll-behavior:smooth}
+body{font-family:var(--font);background:var(--void);color:var(--text);font-size:15px;line-height:1.6;overflow-x:hidden;min-height:100vh}
+::-webkit-scrollbar{width:4px}::-webkit-scrollbar-track{background:var(--void)}::-webkit-scrollbar-thumb{background:var(--accent);border-radius:2px}
+
+/* TICKER */
+.ticker-wrap{background:linear-gradient(90deg,#00d97e,#06b6d4);overflow:hidden;height:32px;display:flex;align-items:center;position:sticky;top:0;z-index:1000}
+.ticker-label{background:rgba(0,0,0,.5);color:#fff;font-size:9px;font-weight:800;letter-spacing:.15em;padding:0 14px;height:100%;display:flex;align-items:center;white-space:nowrap;flex-shrink:0;text-transform:uppercase}
+.ticker-track{display:flex;animation:ticker 80s linear infinite;overflow:hidden;flex:1}
+.ticker-inner{display:flex;white-space:nowrap}
+.ticker-item{color:#fff;font-size:11px;font-weight:600;white-space:nowrap;padding:0 24px;letter-spacing:.015em}
+.ticker-sep{color:rgba(0,0,0,.3);padding:0 4px}
+@keyframes ticker{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+
+/* NAV */
+.nav{background:rgba(9,9,14,.97);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);position:sticky;top:32px;z-index:999;padding:0 20px;height:56px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.nav-logo{font-family:var(--font-d);font-size:20px;font-weight:900;background:linear-gradient(135deg,#fff 0%,#c084fc 60%,#06b6d4 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;white-space:nowrap;flex-shrink:0;cursor:pointer;letter-spacing:-.02em}
+.nav-logo sub{font-family:var(--font-m);font-size:7px;-webkit-text-fill-color:var(--green);color:var(--green);letter-spacing:.1em;text-transform:uppercase;vertical-align:middle;margin-left:4px;opacity:.8}
+.nav-links{display:flex;gap:0;align-items:center;overflow-x:auto;scrollbar-width:none;flex:1;padding:0 10px}
+.nav-links::-webkit-scrollbar{display:none}
+.nav-link{color:var(--muted);font-size:12px;font-weight:500;padding:5px 9px;border-radius:6px;transition:all .2s;white-space:nowrap;cursor:pointer;border:none;background:none;font-family:var(--font);letter-spacing:.01em}
+.nav-link:hover{color:var(--text);background:rgba(255,255,255,.05)}
+.nav-link.active{color:var(--green);background:rgba(0,217,126,.08)}
+.nav-right{display:flex;gap:7px;align-items:center;flex-shrink:0}
+.search-wrap{position:relative}
+.search-bar{background:rgba(255,255,255,.05);border:1px solid var(--border2);border-radius:18px;padding:5px 12px 5px 30px;color:var(--text);font-family:var(--font);font-size:12px;outline:none;width:145px;transition:all .25s}
+.search-icon-nav{position:absolute;left:9px;top:50%;transform:translateY(-50%);color:var(--muted);font-size:12px;pointer-events:none}
+.search-bar:focus{border-color:var(--green);background:rgba(0,217,126,.06);width:200px}
+.btn{padding:5px 13px;border-radius:18px;font-size:11px;font-weight:700;font-family:var(--font);cursor:pointer;transition:all .2s;letter-spacing:.05em;border:none;text-transform:uppercase}
+.btn-primary{background:linear-gradient(135deg,var(--green),var(--cyan));color:#000}
+.btn-primary:hover{opacity:.85;transform:scale(1.03)}
+.btn-ghost{background:rgba(255,255,255,.06);border:1px solid var(--border2);color:var(--muted)}
+.btn-ghost:hover{color:var(--text);background:rgba(255,255,255,.1)}
+.icon-btn{background:rgba(255,255,255,.05);border:1px solid var(--border);color:var(--muted);width:31px;height:31px;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:14px;transition:all .2s;position:relative}
+.icon-btn:hover{color:var(--text);background:rgba(255,255,255,.1);border-color:var(--border2)}
+.nbadge{position:absolute;top:-3px;right:-3px;background:var(--red);color:#fff;font-size:8px;font-weight:700;min-width:14px;height:14px;border-radius:7px;display:none;align-items:center;justify-content:center;padding:0 3px}
+.nbadge.show{display:flex}
+.uavatar{width:30px;height:30px;border-radius:50%;background:linear-gradient(135deg,var(--green),var(--cyan));display:none;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:#000;cursor:pointer;border:2px solid rgba(0,217,126,.3)}
+.uavatar.show{display:flex}
+
+/* LANG DROPDOWN */
+.lang-select{background:rgba(255,255,255,.05);border:1px solid var(--border);color:var(--muted);font-family:var(--font);font-size:11px;border-radius:6px;padding:4px 6px;cursor:pointer;outline:none;transition:all .2s}
+.lang-select:focus,.lang-select:hover{border-color:var(--green);color:var(--text)}
+.lang-select option{background:#161622;color:var(--text)}
+
+/* PAGES */
+.pv{display:none}.pv.active{display:block}
+.page{max-width:1200px;margin:0 auto;padding:0 20px}
+
+/* SEARCH RESULTS DROPDOWN */
+.search-results-drop{position:absolute;top:calc(100% + 5px);right:0;width:320px;background:var(--card2);border:1px solid var(--border2);border-radius:var(--radius);box-shadow:0 16px 48px rgba(0,0,0,.6);z-index:2000;display:none;overflow:hidden}
+.search-results-drop.show{display:block}
+.srd-item{display:flex;align-items:center;gap:10px;padding:10px 14px;border-bottom:1px solid var(--border);cursor:pointer;transition:background .15s}
+.srd-item:last-child{border-bottom:none}
+.srd-item:hover{background:rgba(0,217,126,.07)}
+.srd-thumb{width:36px;height:36px;border-radius:6px;background:var(--surface);overflow:hidden;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0}
+.srd-thumb img{width:100%;height:100%;object-fit:cover}
+.srd-info .srd-name{font-size:13px;font-weight:600}
+.srd-info .srd-type{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.07em}
+.srd-ai-row{padding:10px 14px;border-top:1px solid var(--border);background:rgba(0,217,126,.04);display:flex;align-items:center;gap:6px;cursor:pointer;font-size:11px;color:var(--green);font-weight:600}
+
+/* BILLBOARD HERO LAYOUT */
+.bb-hero{display:grid;grid-template-columns:1fr 1fr 300px;border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;margin-bottom:24px;background:var(--card);min-height:380px}
+.bb-main{position:relative;overflow:hidden;cursor:pointer;grid-row:1/3;min-height:380px}
+.bb-main-img{width:100%;height:100%;object-fit:cover;position:absolute;inset:0;transition:transform .5s}
+.bb-main:hover .bb-main-img{transform:scale(1.04)}
+.bb-main-ov{position:absolute;inset:0;background:linear-gradient(to bottom,transparent 25%,rgba(9,9,14,.97))}
+.bb-main-cnt{position:absolute;bottom:0;left:0;right:0;padding:22px}
+.bb-top-badge{display:inline-block;background:var(--green);color:#000;font-size:9px;font-weight:800;letter-spacing:.14em;padding:3px 9px;border-radius:3px;text-transform:uppercase;margin-bottom:10px}
+.bb-main-title{font-family:var(--font-d);font-size:22px;font-weight:900;line-height:1.2;margin-bottom:6px}
+.bb-main-by{font-size:10px;color:rgba(255,255,255,.5);text-transform:uppercase;letter-spacing:.06em}
+.bb-sub{cursor:pointer;overflow:hidden;border-bottom:1px solid var(--border);position:relative}
+.bb-sub:last-of-type{border-bottom:none}
+.bb-sub-img{width:100%;height:145px;object-fit:cover;object-position:top;display:block;transition:transform .3s}
+.bb-sub:hover .bb-sub-img{transform:scale(1.04)}
+.bb-sub-cnt{padding:11px 13px}
+.bb-sub-cat{font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--green);margin-bottom:3px}
+.bb-sub-title{font-size:13px;font-weight:700;line-height:1.35}
+.bb-sub-meta{font-size:10px;color:var(--dim);margin-top:3px}
+.bb-sidebar{border-left:1px solid var(--border);display:flex;flex-direction:column}
+.bb-sidebar-hdr{padding:12px 14px 10px;font-size:10px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;border-bottom:2px solid var(--text);color:var(--text)}
+.bb-side-item{padding:10px 14px;border-bottom:1px solid var(--border);cursor:pointer;transition:background .15s}
+.bb-side-item:hover{background:rgba(255,255,255,.03)}
+.bb-side-item:last-child{border-bottom:none}
+.bb-si-cat{font-size:9px;font-weight:700;letter-spacing:.1em;color:var(--green);text-transform:uppercase;margin-bottom:2px}
+.bb-si-title{font-size:12px;font-weight:600;line-height:1.35;margin-bottom:3px}
+.bb-si-time{font-size:10px;color:var(--dim)}
+
+/* SECTIONS */
+.section{margin-bottom:28px}
+.sec-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid var(--border)}
+.sec-title{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);display:flex;align-items:center;gap:7px}
+.sec-title::before{content:'';display:block;width:3px;height:13px;background:linear-gradient(180deg,var(--green),var(--cyan));border-radius:2px}
+.sec-action{font-size:11px;color:var(--green);cursor:pointer;font-weight:600}
+.sec-action:hover{text-decoration:underline}
+
+/* LIVE DOT */
+.ldot{width:6px;height:6px;background:var(--red);border-radius:50%;animation:pdot 1.5s ease-in-out infinite;display:inline-block}
+@keyframes pdot{0%,100%{opacity:1}50%{opacity:.4;transform:scale(.7)}}
+
+/* ARTIST CARDS */
+.artists-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:12px}
+.artist-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;cursor:pointer;transition:all .25s;position:relative}
+.artist-card:hover{border-color:var(--green);transform:translateY(-3px);box-shadow:0 10px 28px rgba(0,217,126,.12)}
+.a-photo{width:100%;aspect-ratio:1;overflow:hidden;background:var(--surface);position:relative}
+.a-photo img{width:100%;height:100%;object-fit:cover;object-position:top center;transition:transform .35s}
+.artist-card:hover .a-photo img{transform:scale(1.06)}
+.a-photo-fb{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:40px;background:linear-gradient(135deg,#1a0a2e,#0f1040)}
+.a-photo-ov{position:absolute;inset:0;background:linear-gradient(to bottom,transparent 55%,rgba(9,9,14,.95))}
+.a-rank{position:absolute;top:7px;right:7px;font-size:9px;font-family:var(--font-m);font-weight:600;color:var(--gold);background:rgba(0,0,0,.7);padding:2px 5px;border-radius:4px;z-index:2}
+.a-info{padding:9px 10px 11px}
+.a-name{font-size:12px;font-weight:700;margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.a-genre{font-size:10px;color:var(--muted)}
+.a-trend{font-size:10px;color:var(--green);margin-top:4px;font-weight:600}
+.a-streams{font-size:9px;color:var(--dim);font-family:var(--font-m);margin-top:2px}
+.a-underground{font-size:8px;color:var(--orange);font-weight:700;letter-spacing:.08em;text-transform:uppercase;margin-top:3px}
+
+/* NEWS GRID */
+.news-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.article-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;cursor:pointer;transition:all .22s}
+.article-card:hover{border-color:var(--border2);transform:translateY(-2px);box-shadow:0 10px 30px rgba(0,0,0,.35)}
+.ac-img{height:148px;background:linear-gradient(135deg,#1a0a2e,#0f1040);position:relative;overflow:hidden}
+.ac-img img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .3s}
+.article-card:hover .ac-img img{transform:scale(1.04)}
+.ac-img-ov{position:absolute;inset:0;background:linear-gradient(to bottom,transparent 35%,rgba(22,22,34,.85))}
+.ac-src{position:absolute;top:8px;right:8px;background:rgba(0,0,0,.6);color:#fff;font-size:8px;font-weight:700;padding:2px 6px;border-radius:3px;z-index:2;letter-spacing:.05em}
+.ac-live{position:absolute;top:8px;left:8px;background:rgba(239,68,68,.9);color:#fff;font-size:8px;font-weight:700;padding:2px 6px;border-radius:3px;z-index:2;letter-spacing:.05em}
+.ac-body{padding:12px}
+.ac-cat{font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:5px}
+.ac-title{font-size:13px;font-weight:700;line-height:1.4;margin-bottom:6px}
+.ac-exc{font-size:11px;color:var(--muted);line-height:1.6;margin-bottom:8px}
+.ac-foot{display:flex;align-items:center;justify-content:space-between;font-size:10px;color:var(--dim)}
+.ac-link{font-size:9px;color:var(--green);font-weight:600}
+.tag-pop{color:#ec4899}.tag-rock{color:#f97316}.tag-hiphop{color:#06b6d4}.tag-metal{color:#ef4444}.tag-indie{color:#10b981}.tag-kpop{color:#a78bfa}.tag-edm{color:#f59e0b}.tag-rb{color:#fb7185}.tag-latin{color:#10b981}.tag-afrobeats{color:#22c55e}.tag-jazz{color:#a78bfa}.tag-folk{color:#f59e0b}.tag-country{color:#f59e0b}
+
+/* AI PANEL */
+.ai-panel{background:linear-gradient(135deg,rgba(0,217,126,.06),rgba(6,182,212,.04));border:1px solid rgba(0,217,126,.18);border-radius:var(--radius);padding:18px 22px;margin-bottom:24px;position:relative;overflow:hidden}
+.ai-panel::before{content:'';position:absolute;top:-24px;right:-24px;width:100px;height:100px;background:radial-gradient(circle,rgba(0,217,126,.15),transparent 70%);pointer-events:none}
+.ai-hdr{display:flex;align-items:center;gap:9px;margin-bottom:11px}
+.ai-badge{font-size:8px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;background:linear-gradient(135deg,var(--green),var(--cyan));color:#000;padding:3px 8px;border-radius:4px}
+.ai-label{font-size:13px;font-weight:600;color:var(--text)}
+#ai-out{font-size:13px;line-height:1.85;color:var(--muted);min-height:56px;white-space:pre-wrap}
+.ai-typing::after{content:'▋';animation:blink .8s step-end infinite;color:var(--green)}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
+.ai-acts{display:flex;gap:7px;margin-top:12px;flex-wrap:wrap}
+.ai-btn{font-size:11px;font-weight:600;padding:5px 11px;border-radius:6px;cursor:pointer;font-family:var(--font);transition:all .2s;border:1px solid var(--border2);background:rgba(255,255,255,.04);color:var(--muted)}
+.ai-btn:hover{background:rgba(0,217,126,.1);border-color:var(--green);color:var(--green)}
+
+/* SONGS */
+.songs-list{display:flex;flex-direction:column;gap:2px}
+.song-row{display:flex;align-items:center;gap:11px;padding:9px 10px;border-radius:var(--radius-sm);cursor:pointer;transition:all .15s}
+.song-row:hover{background:rgba(255,255,255,.04)}
+.s-rank{font-family:var(--font-m);font-size:12px;font-weight:600;color:var(--dim);min-width:22px;text-align:center}
+.s-rank.top{color:var(--gold)}
+.s-thumb{width:38px;height:38px;border-radius:6px;overflow:hidden;background:rgba(255,255,255,.05);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:16px}
+.s-thumb img{width:100%;height:100%;object-fit:cover}
+.s-info{flex:1;min-width:0}
+.s-title{font-size:13px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.s-artist{font-size:11px;color:var(--muted)}
+.s-meta{text-align:right;flex-shrink:0}
+.s-streams{font-size:10px;color:var(--muted);font-family:var(--font-m)}
+.s-change{font-size:10px;color:var(--green);font-weight:600}
+.s-change.down{color:var(--red)}.s-change.same{color:var(--dim)}
+
+/* TWO-COL */
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin-bottom:28px}
+
+/* TABS */
+.tabs{display:flex;gap:4px;flex-wrap:wrap;margin-bottom:14px}
+.tab{background:rgba(255,255,255,.04);border:1px solid var(--border);color:var(--muted);font-size:11px;font-weight:600;padding:5px 11px;border-radius:6px;cursor:pointer;font-family:var(--font);transition:all .18s;white-space:nowrap}
+.tab.active,.tab:hover{background:rgba(0,217,126,.1);border-color:rgba(0,217,126,.3);color:var(--green)}
+
+/* GENRES */
+.genres{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px}
+.genre-chip{background:rgba(255,255,255,.04);border:1px solid var(--border);color:var(--muted);font-size:11px;font-weight:600;padding:4px 11px;border-radius:20px;cursor:pointer;transition:all .18s}
+.genre-chip.active,.genre-chip:hover{background:rgba(0,217,126,.1);border-color:rgba(0,217,126,.3);color:var(--green)}
+
+/* ALBUMS */
+.albums-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.album-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;cursor:pointer;transition:all .22s}
+.album-card:hover{border-color:var(--green);transform:translateY(-3px);box-shadow:0 10px 24px rgba(0,217,126,.1)}
+.alb-cover{width:100%;aspect-ratio:1;background:var(--surface);display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
+.alb-cover img{width:100%;height:100%;object-fit:cover;position:absolute;inset:0;transition:transform .3s}
+.album-card:hover .alb-cover img{transform:scale(1.06)}
+.alb-cover-fb{position:relative;z-index:1;font-size:44px}
+.alb-info{padding:10px}
+.alb-title{font-size:12px;font-weight:700;margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.alb-artist{font-size:11px;color:var(--muted);margin-bottom:5px}
+.alb-meta{display:flex;gap:5px;align-items:center;font-size:10px;color:var(--dim);flex-wrap:wrap}
+.alb-badge{background:rgba(0,217,126,.1);color:var(--green);padding:2px 5px;border-radius:3px;font-weight:700;font-size:8px;letter-spacing:.06em;text-transform:uppercase}
+
+/* CALENDAR */
+.cal-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.cal-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-sm);padding:12px;cursor:pointer;transition:all .2s}
+.cal-card:hover{border-color:var(--border2);transform:translateY(-1px)}
+.cal-date{font-family:var(--font-m);font-size:10px;color:var(--muted);margin-bottom:5px;letter-spacing:.05em}
+.cal-event{font-size:12px;font-weight:600;margin-bottom:4px;line-height:1.3}
+.cal-type{font-size:9px;font-weight:700;letter-spacing:.08em;text-transform:uppercase}
+.t-album{color:var(--green)}.t-tour{color:var(--cyan)}.t-festival{color:var(--gold)}.t-award{color:var(--pink)}
+
+/* NEWSLETTER */
+.newsletter{background:linear-gradient(135deg,rgba(0,217,126,.07),rgba(6,182,212,.05));border:1px solid rgba(0,217,126,.15);border-radius:var(--radius);padding:32px 36px;text-align:center;margin-bottom:28px}
+.nl-title{font-family:var(--font-d);font-size:22px;font-weight:900;margin-bottom:8px}
+.nl-sub{font-size:13px;color:var(--muted);margin-bottom:16px}
+.nl-form{display:flex;gap:8px;max-width:400px;margin:0 auto}
+.nl-input{flex:1;background:rgba(255,255,255,.06);border:1px solid var(--border2);border-radius:8px;padding:9px 14px;color:var(--text);font-family:var(--font);font-size:13px;outline:none}
+.nl-input:focus{border-color:var(--green)}
+.nl-btn{background:var(--green);color:#000;border:none;border-radius:8px;padding:9px 18px;font-weight:700;font-family:var(--font);font-size:12px;cursor:pointer;letter-spacing:.05em;text-transform:uppercase}
+
+/* ARTIST SEARCH */
+.artist-search-wrap{position:relative;margin-bottom:10px}
+.artist-search-bar{width:100%;background:rgba(255,255,255,.05);border:1px solid var(--border2);border-radius:var(--radius);padding:12px 16px 12px 40px;color:var(--text);font-family:var(--font);font-size:14px;outline:none;transition:all .25s}
+.artist-search-bar:focus{border-color:var(--green);background:rgba(0,217,126,.05)}
+.artist-search-icon{position:absolute;left:14px;top:50%;transform:translateY(-50%);color:var(--muted);font-size:16px;pointer-events:none}
+.artist-search-hint{font-size:11px;color:var(--dim);margin-bottom:16px;padding-left:4px}
+
+/* AI ARTIST RESULT */
+.ai-artist-card{background:var(--card);border:1px solid rgba(0,217,126,.2);border-radius:var(--radius);padding:20px;margin-bottom:18px;display:flex;gap:20px}
+.aac-photo{width:90px;height:90px;border-radius:var(--radius-sm);overflow:hidden;flex-shrink:0;background:var(--surface);display:flex;align-items:center;justify-content:center;font-size:36px}
+.aac-photo img{width:100%;height:100%;object-fit:cover}
+.aac-info{flex:1}
+.aac-name{font-family:var(--font-d);font-size:22px;font-weight:900;margin-bottom:4px}
+.aac-genre{font-size:12px;color:var(--green);font-weight:600;margin-bottom:8px}
+.aac-bio{font-size:13px;color:var(--muted);line-height:1.7;margin-bottom:10px}
+.aac-links{display:flex;gap:8px;flex-wrap:wrap}
+.aac-link{font-size:11px;font-weight:700;padding:4px 11px;border-radius:6px;cursor:pointer;border:1px solid var(--border2);background:rgba(255,255,255,.05);color:var(--muted);text-decoration:none;transition:all .18s}
+.aac-link:hover{border-color:var(--green);color:var(--green)}
+
+/* PROFILE PAGE */
+.profile-wrap{display:grid;grid-template-columns:260px 1fr;gap:24px;padding-top:24px}
+.profile-sidebar{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:22px;align-self:start}
+.profile-avatar-big{width:80px;height:80px;border-radius:50%;margin:0 auto 14px;display:flex;align-items:center;justify-content:center;font-size:30px;font-weight:700;color:#000;cursor:pointer;border:3px solid rgba(0,217,126,.3);position:relative;overflow:hidden}
+.profile-avatar-big img{width:100%;height:100%;object-fit:cover;position:absolute;inset:0}
+.profile-name-big{text-align:center;font-size:16px;font-weight:700;margin-bottom:3px}
+.profile-email-big{text-align:center;font-size:11px;color:var(--muted);margin-bottom:16px}
+.profile-nav-item{padding:8px 12px;border-radius:8px;cursor:pointer;font-size:13px;font-weight:500;color:var(--muted);transition:all .18s;display:flex;align-items:center;gap:8px;margin-bottom:2px}
+.profile-nav-item:hover{background:rgba(255,255,255,.05);color:var(--text)}
+.profile-nav-item.active{background:rgba(0,217,126,.1);color:var(--green)}
+.profile-main{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:24px}
+.profile-section{display:none}.profile-section.active{display:block}
+.profile-section-title{font-size:14px;font-weight:700;margin-bottom:18px;padding-bottom:10px;border-bottom:1px solid var(--border)}
+.settings-row{display:flex;align-items:center;justify-content:space-between;padding:12px 0;border-bottom:1px solid var(--border)}
+.settings-row:last-child{border-bottom:none}
+.settings-label{font-size:13px;font-weight:500}
+.settings-desc{font-size:11px;color:var(--muted);margin-top:2px}
+.toggle{width:36px;height:20px;background:rgba(255,255,255,.1);border-radius:10px;cursor:pointer;position:relative;transition:background .2s;flex-shrink:0;border:none}
+.toggle.on{background:var(--green)}
+.toggle::after{content:'';position:absolute;top:2px;left:2px;width:16px;height:16px;border-radius:50%;background:#fff;transition:left .2s}
+.toggle.on::after{left:18px}
+.color-picker-row{display:flex;gap:8px;margin-top:8px;flex-wrap:wrap}
+.color-swatch{width:26px;height:26px;border-radius:50%;cursor:pointer;border:2px solid transparent;transition:border-color .18s}
+.color-swatch.active,.color-swatch:hover{border-color:#fff}
+.profile-input{width:100%;background:rgba(255,255,255,.05);border:1px solid var(--border2);border-radius:8px;padding:9px 13px;color:var(--text);font-family:var(--font);font-size:13px;outline:none;margin-top:6px;margin-bottom:12px}
+.profile-input:focus{border-color:var(--green)}
+.profile-save-btn{background:var(--green);color:#000;border:none;border-radius:8px;padding:9px 20px;font-weight:700;font-size:12px;cursor:pointer;letter-spacing:.05em;text-transform:uppercase;font-family:var(--font)}
+.fav-artists-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.fav-chip{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:10px;text-align:center;cursor:pointer;transition:all .18s;position:relative}
+.fav-chip.selected{border-color:var(--green);background:rgba(0,217,126,.08)}
+.fav-chip-emoji{font-size:22px;display:block;margin-bottom:4px}
+.fav-chip-name{font-size:11px;font-weight:600}
+.fav-rm{position:absolute;top:4px;right:4px;font-size:11px;color:var(--red);cursor:pointer;display:none}
+.fav-chip.selected .fav-rm{display:block}
+
+/* AI CHAT WIDGET */
+.ai-chat-fab{position:fixed;bottom:24px;right:24px;z-index:3000;background:linear-gradient(135deg,var(--green),var(--cyan));color:#000;width:54px;height:54px;border-radius:50%;border:none;font-size:22px;cursor:pointer;box-shadow:0 6px 24px rgba(0,217,126,.3);display:flex;align-items:center;justify-content:center;transition:all .25s}
+.ai-chat-fab:hover{transform:scale(1.1);box-shadow:0 10px 32px rgba(0,217,126,.4)}
+.ai-chat-window{position:fixed;bottom:88px;right:24px;z-index:2999;width:340px;background:var(--card2);border:1px solid var(--border2);border-radius:14px;box-shadow:0 20px 60px rgba(0,0,0,.6);display:none;flex-direction:column;max-height:480px;overflow:hidden}
+.ai-chat-window.open{display:flex}
+.ai-chat-hdr{padding:14px 16px;background:linear-gradient(135deg,rgba(0,217,126,.12),rgba(6,182,212,.08));border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px}
+.ai-chat-avatar{width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,var(--green),var(--cyan));display:flex;align-items:center;justify-content:center;font-size:15px;color:#000;font-weight:700;flex-shrink:0}
+.ai-chat-title{font-size:13px;font-weight:700;flex:1}
+.ai-chat-close{background:none;border:none;color:var(--muted);cursor:pointer;font-size:18px;padding:0;line-height:1}
+.ai-chat-msgs{flex:1;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:10px;min-height:200px;max-height:300px}
+.chat-msg{max-width:88%;padding:9px 12px;border-radius:10px;font-size:12px;line-height:1.6}
+.chat-msg.user{background:rgba(0,217,126,.15);border:1px solid rgba(0,217,126,.2);color:var(--text);align-self:flex-end;border-bottom-right-radius:3px}
+.chat-msg.ai{background:rgba(255,255,255,.05);border:1px solid var(--border);color:var(--muted);align-self:flex-start;border-bottom-left-radius:3px}
+.ai-chat-input-row{padding:10px 12px;border-top:1px solid var(--border);display:flex;gap:7px}
+.ai-chat-input{flex:1;background:rgba(255,255,255,.05);border:1px solid var(--border2);border-radius:8px;padding:7px 10px;color:var(--text);font-family:var(--font);font-size:12px;outline:none}
+.ai-chat-input:focus{border-color:var(--green)}
+.ai-chat-send{background:var(--green);color:#000;border:none;border-radius:8px;padding:7px 12px;font-size:12px;font-weight:700;cursor:pointer;font-family:var(--font)}
+.ai-chat-suggestions{padding:0 12px 10px;display:flex;gap:5px;flex-wrap:wrap}
+.ai-chat-sug{font-size:10px;font-weight:600;padding:3px 8px;border-radius:12px;border:1px solid rgba(0,217,126,.2);color:var(--green);background:rgba(0,217,126,.06);cursor:pointer;transition:all .15s}
+.ai-chat-sug:hover{background:rgba(0,217,126,.15)}
+
+/* NOTIF PANEL */
+.notif-panel{position:absolute;top:calc(100% + 8px);right:0;width:300px;background:var(--card2);border:1px solid var(--border2);border-radius:var(--radius);box-shadow:0 16px 48px rgba(0,0,0,.6);z-index:2000;display:none;overflow:hidden}
+.notif-panel.show{display:block}
+.np-hdr{display:flex;align-items:center;justify-content:space-between;padding:12px 14px;border-bottom:1px solid var(--border)}
+.np-hdr-title{font-size:12px;font-weight:700}
+.np-clear{font-size:10px;color:var(--muted);cursor:pointer}
+.np-clear:hover{color:var(--red)}
+.np-item{display:flex;align-items:flex-start;gap:9px;padding:10px 14px;border-bottom:1px solid var(--border);cursor:pointer;transition:background .15s}
+.np-item:last-child{border-bottom:none}
+.np-item:hover{background:rgba(255,255,255,.03)}
+.np-item.unread{background:rgba(0,217,126,.04)}
+.np-icon{font-size:16px;flex-shrink:0;margin-top:1px}
+.np-txt{font-size:11px;line-height:1.5;color:var(--muted)}
+.np-txt strong{color:var(--text)}
+.np-time{font-size:9px;color:var(--dim);margin-top:3px}
+
+/* TOAST */
+.toast{position:fixed;bottom:28px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--card2);border:1px solid var(--border2);color:var(--text);padding:10px 20px;border-radius:8px;font-size:13px;font-weight:500;z-index:9999;opacity:0;transition:all .3s;pointer-events:none;box-shadow:0 8px 24px rgba(0,0,0,.4)}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+/* AUTH MODAL */
+.modal-ov{position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:8000;display:none;align-items:center;justify-content:center;backdrop-filter:blur(4px)}
+.modal-ov.show{display:flex}
+.modal-box{background:var(--card);border:1px solid var(--border2);border-radius:14px;width:380px;overflow:hidden}
+.modal-hdr{padding:20px 24px 0;display:flex;justify-content:space-between;align-items:center}
+.modal-title{font-size:17px;font-weight:700}
+.modal-close{background:none;border:none;color:var(--muted);cursor:pointer;font-size:22px;line-height:1}
+.modal-tabs{display:flex;border-bottom:1px solid var(--border);margin:0 24px;gap:0}
+.modal-tab{padding:12px 16px;font-size:13px;font-weight:600;cursor:pointer;color:var(--muted);border-bottom:2px solid transparent;transition:all .18s;font-family:var(--font)}
+.modal-tab.active{color:var(--green);border-bottom-color:var(--green)}
+.modal-body{padding:20px 24px 24px}
+.modal-form{display:none}.modal-form.active{display:block}
+.modal-label{font-size:11px;font-weight:700;color:var(--muted);letter-spacing:.08em;text-transform:uppercase;margin-bottom:5px;margin-top:10px;display:block}
+.modal-input{width:100%;background:rgba(255,255,255,.05);border:1px solid var(--border2);border-radius:8px;padding:9px 13px;color:var(--text);font-family:var(--font);font-size:13px;outline:none;transition:all .2s}
+.modal-input:focus{border-color:var(--green)}
+.modal-btn{width:100%;background:var(--green);color:#000;border:none;border-radius:8px;padding:11px;font-weight:700;font-size:13px;cursor:pointer;margin-top:16px;font-family:var(--font);letter-spacing:.04em;text-transform:uppercase}
+.modal-btn:hover{opacity:.88}
+.modal-or{text-align:center;color:var(--dim);font-size:11px;margin:12px 0;position:relative}
+.modal-or::before,.modal-or::after{content:'';position:absolute;top:50%;width:38%;height:1px;background:var(--border)}
+.modal-or::before{left:0}.modal-or::after{right:0}
+
+/* SPIN */
+.spin{width:22px;height:22px;border:2px solid rgba(255,255,255,.1);border-top-color:var(--green);border-radius:50%;animation:spin .8s linear infinite;display:inline-block}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* NEWS REFRESH */
+.news-refresh-bar{display:flex;align-items:center;justify-content:space-between;padding:7px 12px;background:rgba(0,217,126,.06);border:1px solid rgba(0,217,126,.12);border-radius:8px;margin-bottom:14px;font-size:11px}
+.nrb-left{display:flex;align-items:center;gap:7px;color:var(--green)}
+.nrb-btn{background:none;border:none;color:var(--green);font-size:11px;font-weight:700;cursor:pointer;font-family:var(--font)}
+.nrb-btn:hover{text-decoration:underline}
+.nrb-time{color:var(--muted)}
+
+/* PAGINATION */
+.pagination{display:flex;gap:6px;justify-content:center;padding:18px 0;flex-wrap:wrap}
+.page-btn{background:rgba(255,255,255,.04);border:1px solid var(--border);color:var(--muted);font-size:12px;font-weight:600;padding:5px 12px;border-radius:6px;cursor:pointer;font-family:var(--font);transition:all .18s}
+.page-btn.active,.page-btn:hover{background:rgba(0,217,126,.1);border-color:rgba(0,217,126,.3);color:var(--green)}
+
+/* CONCERTS */
+.concerts-list{display:flex;flex-direction:column;gap:8px}
+.concert-row{display:flex;align-items:center;gap:14px;padding:12px 14px;background:var(--card);border:1px solid var(--border);border-radius:var(--radius-sm);cursor:pointer;transition:all .18s}
+.concert-row:hover{border-color:var(--border2);transform:translateX(3px)}
+.con-date-block{text-align:center;min-width:44px;flex-shrink:0}
+.con-month{font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--green)}
+.con-day{font-family:var(--font-d);font-size:20px;font-weight:900;line-height:1}
+.con-info{flex:1}
+.con-artist{font-size:13px;font-weight:700}
+.con-venue{font-size:11px;color:var(--muted);margin-top:2px}
+.con-price{font-size:11px;color:var(--gold);font-weight:600;white-space:nowrap}
+
+/* CHART TABLE */
+.chart-table{width:100%;border-collapse:collapse}
+.chart-table th{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--dim);padding:6px 10px;text-align:left;border-bottom:1px solid var(--border)}
+.chart-table td{padding:9px 10px;border-bottom:1px solid rgba(255,255,255,.03);font-size:12px;vertical-align:middle}
+.chart-table tr:hover td{background:rgba(255,255,255,.02)}
+
+/* AWARDS */
+.awards-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.award-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-sm);padding:14px}
+.award-icon{font-size:20px;margin-bottom:7px}
+.award-cat{font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:5px}
+.award-winner{font-size:13px;font-weight:700;color:var(--gold);margin-bottom:4px}
+.award-nom{font-size:10px;color:var(--dim)}
+
+/* FEAT/INSET */
+.fi-section{opacity:0;transform:translateY(14px);transition:opacity .4s,transform .4s}
+.fi-section.visible{opacity:1;transform:none}
+
+/* STATS BAR */
+.stats-bar{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:24px}
+.stat-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:14px 18px;text-align:center}
+.stat-num{font-family:var(--font-d);font-size:26px;font-weight:900;background:linear-gradient(135deg,var(--green),var(--cyan));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.stat-label{font-size:10px;color:var(--muted);margin-top:3px;font-weight:600;letter-spacing:.06em;text-transform:uppercase}
+
+/* FOOTER */
+footer{background:var(--deep);border-top:1px solid var(--border);padding:28px 20px;margin-top:40px}
+.footer-inner{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
+.footer-col-title{font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--text);margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid var(--border)}
+.footer-link{font-size:12px;color:var(--dim);cursor:pointer;display:block;margin-bottom:5px;transition:color .18s}
+.footer-link:hover{color:var(--green)}
+.footer-bottom{max-width:1200px;margin:16px auto 0;padding-top:14px;border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;font-size:11px;color:var(--dim)}
+
+/* LIVE NEWS BADGE */
+.live-news-badge{display:inline-flex;align-items:center;gap:4px;background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.2);color:var(--red);font-size:9px;font-weight:700;padding:2px 7px;border-radius:4px;text-transform:uppercase;letter-spacing:.08em;margin-left:8px}
+
+/* RESPONSIVE */
+@media(max-width:900px){
+  .bb-hero{grid-template-columns:1fr;grid-template-rows:auto}
+  .bb-sidebar{border-left:none;border-top:1px solid var(--border)}
+  .artists-grid{grid-template-columns:repeat(3,1fr)}
+  .news-grid{grid-template-columns:repeat(2,1fr)}
+  .two-col{grid-template-columns:1fr}
+  .albums-grid{grid-template-columns:repeat(2,1fr)}
+  .stats-bar{grid-template-columns:repeat(2,1fr)}
+  .profile-wrap{grid-template-columns:1fr}
+  .footer-inner{grid-template-columns:repeat(2,1fr)}
+}
+@media(max-width:600px){
+  .artists-grid{grid-template-columns:repeat(2,1fr)}
+  .news-grid{grid-template-columns:1fr}
+  .albums-grid{grid-template-columns:repeat(2,1fr)}
+  .cal-grid{grid-template-columns:repeat(2,1fr)}
+  .awards-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<!-- TICKER -->
+<div class="ticker-wrap">
+  <div class="ticker-label">⚡ Live</div>
+  <div class="ticker-track" id="ticker-track">
+    <div class="ticker-inner" id="ticker-inner"></div>
+  </div>
+</div>
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="nav-logo" onclick="goPage('home')" style="cursor:pointer">
+    WorldMusicNow<sub>LIVE</sub>
+  </div>
+  <div class="nav-links">
+    <button class="nav-link active" onclick="goPage('home')">Home</button>
+    <button class="nav-link" onclick="goPage('news')">News</button>
+    <button class="nav-link" onclick="goPage('artists')">Artists</button>
+    <button class="nav-link" onclick="goPage('charts')">Charts</button>
+    <button class="nav-link" onclick="goPage('albums')">Albums</button>
+    <button class="nav-link" onclick="goPage('concerts')">Concerts</button>
+    <button class="nav-link" onclick="goPage('festivals')">Festivals</button>
+    <button class="nav-link" onclick="goPage('awards')">Awards</button>
+  </div>
+  <div class="nav-right">
+    <div class="search-wrap">
+      <span class="search-icon-nav">🔍</span>
+      <input class="search-bar" type="search" id="global-search" placeholder="Search artists, songs…" oninput="globalSearch(this.value)" onkeydown="if(event.key==='Enter')searchEnter(this.value)" autocomplete="off">
+      <div class="search-results-drop" id="search-drop"></div>
+    </div>
+    <select class="lang-select" id="lang-select" onchange="changeLang(this.value)" title="Language">
+      <option value="en">🌐 EN</option>
+      <option value="fr">🇫🇷 FR</option>
+      <option value="de">🇩🇪 DE</option>
+      <option value="es">🇪🇸 ES</option>
+      <option value="it">🇮🇹 IT</option>
+      <option value="pt">🇵🇹 PT</option>
+      <option value="nl">🇳🇱 NL</option>
+      <option value="pl">🇵🇱 PL</option>
+      <option value="ro">🇷🇴 RO</option>
+      <option value="sv">🇸🇪 SV</option>
+      <option value="no">🇳🇴 NO</option>
+      <option value="da">🇩🇰 DA</option>
+      <option value="fi">🇫🇮 FI</option>
+      <option value="hu">🇭🇺 HU</option>
+      <option value="cs">🇨🇿 CS</option>
+      <option value="sk">🇸🇰 SK</option>
+      <option value="bg">🇧🇬 BG</option>
+      <option value="hr">🇭🇷 HR</option>
+      <option value="el">🇬🇷 EL</option>
+      <option value="uk">🇺🇦 UK</option>
+      <option value="ru">🇷🇺 RU</option>
+      <option value="tr">🇹🇷 TR</option>
+      <option value="ja">🇯🇵 JA</option>
+      <option value="ko">🇰🇷 KO</option>
+      <option value="zh">🇨🇳 ZH</option>
+      <option value="hi">🇮🇳 HI</option>
+      <option value="ar">🇸🇦 AR</option>
+      <option value="th">🇹🇭 TH</option>
+      <option value="vi">🇻🇳 VI</option>
+      <option value="id">🇮🇩 ID</option>
+    </select>
+    <div style="position:relative">
+      <button class="icon-btn" id="notif-btn" onclick="toggleNotif()" title="Notifications">🔔<span class="nbadge" id="nbadge"></span></button>
+      <div class="notif-panel" id="np">
+        <div class="np-hdr"><span class="np-hdr-title">Notifications</span><span class="np-clear" onclick="clearNotifs()">Clear all</span></div>
+        <div id="np-list" style="max-height:300px;overflow-y:auto"></div>
+      </div>
+    </div>
+    <button class="btn btn-ghost" id="signin-btn" onclick="openAuth('login')">Sign In</button>
+    <button class="btn btn-primary" id="join-btn" onclick="openAuth('register')">Join Free</button>
+    <div class="uavatar" id="uavatar" onclick="goPage('profile')" title="Profile"></div>
+  </div>
+</nav>
+
+<!-- PAGES -->
+
+<!-- HOME -->
+<div class="pv active" id="pv-home">
+<div class="page" style="padding-top:22px">
+
+  <div class="stats-bar">
+    <div class="stat-card"><div class="stat-num" id="stat-artists">0</div><div class="stat-label">Artists Tracked</div></div>
+    <div class="stat-card"><div class="stat-num" id="stat-songs">0</div><div class="stat-label">Songs Indexed</div></div>
+    <div class="stat-card"><div class="stat-num" id="stat-news">0</div><div class="stat-label">Live News Stories</div></div>
+    <div class="stat-card"><div class="stat-num" id="stat-streams">0</div><div class="stat-label">Streams Today (B)</div></div>
+  </div>
+
+  <!-- BILLBOARD HERO -->
+  <div class="bb-hero" id="bb-hero-wrap"></div>
+
+  <!-- AI PANEL -->
+  <div class="ai-panel fi-section">
+    <div class="ai-hdr">
+      <span class="ai-badge">AI</span>
+      <span class="ai-label" id="ai-label-text">Music Intelligence — June 27, 2026</span>
+      <span class="live-news-badge"><span class="ldot"></span> Live</span>
+    </div>
+    <div id="ai-out">Loading today's music briefing…</div>
+    <div class="ai-acts">
+      <button class="ai-btn" onclick="runAI('top_song')">🏆 #1 Song Right Now</button>
+      <button class="ai-btn" onclick="runAI('brief')">📰 Daily Briefing</button>
+      <button class="ai-btn" onclick="runAI('trend')">📈 Trending 2026</button>
+      <button class="ai-btn" onclick="runAI('spot')">🎤 Artist Spotlight</button>
+      <button class="ai-btn" onclick="fetchLiveNews(true)">🌐 Refresh Live News</button>
+    </div>
+  </div>
+
+  <div class="section fi-section">
+    <div class="sec-hdr"><span class="sec-title">Trending Artists — June 2026</span><span class="sec-action" onclick="goPage('artists')">Browse all 100k+ →</span></div>
+    <div class="artists-grid" id="artists-home"></div>
+  </div>
+
+  <div class="section fi-section">
+    <div class="sec-hdr"><span class="sec-title">Latest News <span class="live-news-badge"><span class="ldot"></span> Live</span></span><span class="sec-action" onclick="goPage('news')">Full feed →</span></div>
+    <div class="genres" id="gf-home"></div>
+    <div class="news-grid" id="news-home"></div>
+  </div>
+
+  <div class="two-col fi-section">
+    <div class="section">
+      <div class="sec-hdr"><span class="sec-title">Charts · June 27, 2026</span><span class="sec-action" onclick="goPage('charts')">Full chart →</span></div>
+      <div class="tabs" id="songs-tabs">
+        <button class="tab active" onclick="switchSTab(this,'global')">🌍 Global</button>
+        <button class="tab" onclick="switchSTab(this,'us')">🇺🇸 US</button>
+        <button class="tab" onclick="switchSTab(this,'uk')">🇬🇧 UK</button>
+        <button class="tab" onclick="switchSTab(this,'latin')">🌮 Latin</button>
+      </div>
+      <div class="songs-list" id="songs-home"></div>
+    </div>
+    <div class="section">
+      <div class="sec-hdr"><span class="sec-title">Music Calendar</span></div>
+      <div class="cal-grid" id="cal-home"></div>
+    </div>
+  </div>
+
+  <div class="section fi-section">
+    <div class="sec-hdr"><span class="sec-title">New Albums — 2026</span><span class="sec-action" onclick="goPage('albums')">View all →</span></div>
+    <div class="albums-grid" id="albums-home"></div>
+  </div>
+
+  <div class="newsletter fi-section">
+    <h2 class="nl-title">The Beat Goes On 🎵</h2>
+    <p class="nl-sub">Daily music briefing in your inbox. Join 400,000+ readers.</p>
+    <div class="nl-form">
+      <input class="nl-input" type="email" placeholder="your@email.com" id="nl-email">
+      <button class="nl-btn" onclick="subscribe()">Subscribe</button>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- NEWS -->
+<div class="pv" id="pv-news">
+<div class="page" style="padding-top:24px">
+  <div class="sec-hdr" style="margin-bottom:16px">
+    <span class="sec-title">News Feed <span class="live-news-badge"><span class="ldot"></span> Live</span></span>
+    <button class="ai-btn" onclick="fetchLiveNews(true)" style="display:inline-flex;align-items:center;gap:5px">🌐 Refresh Live News</button>
+  </div>
+  <div class="news-refresh-bar" id="nrb">
+    <div class="nrb-left"><div class="ldot"></div><span>Live feed active</span><span class="nrb-time" id="nrb-time">Loading…</span></div>
+    <button class="nrb-btn" onclick="fetchLiveNews(true)">↻ Refresh Now</button>
+  </div>
+  <div class="genres" id="gf-news"></div>
+  <div id="news-loading" style="display:none;padding:36px;text-align:center;color:var(--muted)"><div class="spin" style="margin:0 auto 10px"></div>Fetching latest music news…</div>
+  <div class="news-grid" id="news-full"></div>
+</div>
+</div>
+
+<!-- ARTISTS -->
+<div class="pv" id="pv-artists">
+<div class="page" style="padding-top:24px">
+  <div class="sec-hdr" style="margin-bottom:16px">
+    <span class="sec-title">Artist Database</span>
+    <span id="artist-count-lbl" style="font-size:11px;color:var(--muted)">100,000+ artists indexed</span>
+  </div>
+  <div class="artist-search-wrap">
+    <span class="artist-search-icon">🔍</span>
+    <input class="artist-search-bar" type="search" id="artist-search" placeholder="Search any artist — mainstream, indie, underground, local, emerging…" oninput="handleArtistSearch(this.value)" onkeydown="if(event.key==='Enter')searchArtistAI(this.value)" autocomplete="off">
+  </div>
+  <p class="artist-search-hint">💡 Type any artist name and press Enter for a full profile generated from online data. Browse categories below or search 100k+ acts worldwide.</p>
+  <div id="artist-ai-result" style="display:none"></div>
+  <div class="tabs" id="artist-tabs">
+    <button class="tab active" onclick="switchArtistTab(this,'trending')">🔥 Trending</button>
+    <button class="tab" onclick="switchArtistTab(this,'pop')">Pop</button>
+    <button class="tab" onclick="switchArtistTab(this,'hiphop')">Hip-Hop</button>
+    <button class="tab" onclick="switchArtistTab(this,'rock')">Rock</button>
+    <button class="tab" onclick="switchArtistTab(this,'rnb')">R&B</button>
+    <button class="tab" onclick="switchArtistTab(this,'electronic')">Electronic</button>
+    <button class="tab" onclick="switchArtistTab(this,'latin')">Latin</button>
+    <button class="tab" onclick="switchArtistTab(this,'kpop')">K-Pop</button>
+    <button class="tab" onclick="switchArtistTab(this,'metal')">Metal</button>
+    <button class="tab" onclick="switchArtistTab(this,'jazz')">Jazz</button>
+    <button class="tab" onclick="switchArtistTab(this,'folk')">Folk</button>
+    <button class="tab" onclick="switchArtistTab(this,'afrobeats')">Afrobeats</button>
+    <button class="tab" onclick="switchArtistTab(this,'indie')">Indie</button>
+    <button class="tab" onclick="switchArtistTab(this,'underground')">🌑 Underground</button>
+  </div>
+  <div class="artists-grid" id="artists-full"></div>
+  <div class="pagination" id="artist-pagination"></div>
+</div>
+</div>
+
+<!-- ALBUMS -->
+<div class="pv" id="pv-albums">
+<div class="page" style="padding-top:24px">
+  <div class="sec-hdr" style="margin-bottom:16px"><span class="sec-title">Albums & Releases 2025–2026</span></div>
+  <div class="albums-grid" id="albums-full"></div>
+</div>
+</div>
+
+<!-- CHARTS -->
+<div class="pv" id="pv-charts">
+<div class="page" style="padding-top:24px">
+  <div class="sec-hdr" style="margin-bottom:16px"><span class="sec-title">Charts · Week of June 27, 2026</span></div>
+  <div class="tabs">
+    <button class="tab active" onclick="switchCTab(this,'global')">🌍 Global</button>
+    <button class="tab" onclick="switchCTab(this,'us')">🇺🇸 US Hot 100</button>
+    <button class="tab" onclick="switchCTab(this,'uk')">🇬🇧 UK Singles</button>
+    <button class="tab" onclick="switchCTab(this,'latin')">🌮 Latin</button>
+    <button class="tab" onclick="switchCTab(this,'kpop')">🇰🇷 K-Pop</button>
+    <button class="tab" onclick="switchCTab(this,'streaming')">📱 Streaming</button>
+  </div>
+  <table class="chart-table" id="chart-table">
+    <thead><tr><th>#</th><th>Song</th><th>Artist</th><th>Peak</th><th>Weeks</th><th>Streams/Day</th><th>Change</th></tr></thead>
+    <tbody id="chart-body"></tbody>
+  </table>
+</div>
+</div>
+
+<!-- CONCERTS -->
+<div class="pv" id="pv-concerts">
+<div class="page" style="padding-top:24px">
+  <div class="sec-hdr" style="margin-bottom:16px"><span class="sec-title">Upcoming Concerts & Tours</span></div>
+  <div class="concerts-list" id="concerts-list"></div>
+</div>
+</div>
+
+<!-- FESTIVALS -->
+<div class="pv" id="pv-festivals">
+<div class="page" style="padding-top:24px">
+  <div class="sec-hdr" style="margin-bottom:16px"><span class="sec-title">Music Festivals 2026</span></div>
+  <div class="news-grid" id="festivals-grid"></div>
+</div>
+</div>
+
+<!-- AWARDS -->
+<div class="pv" id="pv-awards">
+<div class="page" style="padding-top:24px">
+  <div class="sec-hdr" style="margin-bottom:16px"><span class="sec-title">Awards — 2025 / 2026</span></div>
+  <div class="tabs">
+    <button class="tab active" onclick="switchAward(this,'grammys')">🏆 Grammys</button>
+    <button class="tab" onclick="switchAward(this,'vmas')">🎬 VMAs</button>
+    <button class="tab" onclick="switchAward(this,'brit')">🇬🇧 BRITs</button>
+    <button class="tab" onclick="switchAward(this,'amas')">⭐ AMAs</button>
+  </div>
+  <div class="awards-grid" id="awards-grid"></div>
+</div>
+</div>
+
+<!-- PROFILE -->
+<div class="pv" id="pv-profile">
+<div class="page">
+  <div class="profile-wrap">
+    <div class="profile-sidebar">
+      <div class="profile-avatar-big" id="profile-avatar-big" style="background:linear-gradient(135deg,var(--green),var(--cyan))">
+        <span id="profile-avatar-letter" style="position:relative;z-index:1">?</span>
+      </div>
+      <div class="profile-name-big" id="profile-name-big">Guest</div>
+      <div class="profile-email-big" id="profile-email-big">Sign in to personalize</div>
+      <div style="height:16px"></div>
+      <div class="profile-nav-item active" onclick="switchProfileTab(this,'overview')">👤 Overview</div>
+      <div class="profile-nav-item" onclick="switchProfileTab(this,'settings')">⚙️ Settings</div>
+      <div class="profile-nav-item" onclick="switchProfileTab(this,'favorites')">❤️ Favorites</div>
+      <div class="profile-nav-item" onclick="switchProfileTab(this,'appearance')">🎨 Appearance</div>
+      <div class="profile-nav-item" onclick="switchProfileTab(this,'notifications-tab')">🔔 Notifications</div>
+      <div class="profile-nav-item" onclick="switchProfileTab(this,'privacy')">🔒 Privacy</div>
+    </div>
+    <div class="profile-main">
+      <!-- OVERVIEW -->
+      <div class="profile-section active" id="ps-overview">
+        <div class="profile-section-title">My Overview</div>
+        <div style="font-size:13px;color:var(--muted);line-height:1.8">
+          <p>Welcome to your WorldMusicNow profile. Customize it to match your music taste.</p>
+          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:18px">
+            <div style="background:var(--surface);border-radius:8px;padding:14px;text-align:center">
+              <div style="font-size:22px;font-weight:900;font-family:var(--font-d);color:var(--green)" id="ov-saved">0</div>
+              <div style="font-size:10px;color:var(--muted);margin-top:3px;text-transform:uppercase;letter-spacing:.06em">Saved Artists</div>
+            </div>
+            <div style="background:var(--surface);border-radius:8px;padding:14px;text-align:center">
+              <div style="font-size:22px;font-weight:900;font-family:var(--font-d);color:var(--cyan)" id="ov-news">0</div>
+              <div style="font-size:10px;color:var(--muted);margin-top:3px;text-transform:uppercase;letter-spacing:.06em">News Read</div>
+            </div>
+            <div style="background:var(--surface);border-radius:8px;padding:14px;text-align:center">
+              <div style="font-size:22px;font-weight:900;font-family:var(--font-d);color:var(--gold)">1</div>
+              <div style="font-size:10px;color:var(--muted);margin-top:3px;text-transform:uppercase;letter-spacing:.06em">Days Member</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- SETTINGS -->
+      <div class="profile-section" id="ps-settings">
+        <div class="profile-section-title">Account Settings</div>
+        <label style="font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.08em">Display Name</label>
+        <input class="profile-input" type="text" id="s-name" placeholder="Your name">
+        <label style="font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.08em">Email</label>
+        <input class="profile-input" type="email" id="s-email" placeholder="your@email.com">
+        <label style="font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.08em">Bio</label>
+        <textarea class="profile-input" id="s-bio" rows="3" placeholder="Tell us about your music taste…" style="resize:vertical"></textarea>
+        <button class="profile-save-btn" onclick="saveSettings()">Save Changes</button>
+      </div>
+      <!-- FAVORITES -->
+      <div class="profile-section" id="ps-favorites">
+        <div class="profile-section-title">Favorite Artists</div>
+        <p style="font-size:12px;color:var(--muted);margin-bottom:14px">Select up to 10 artists to personalize your feed.</p>
+        <div class="fav-artists-grid" id="fav-artists-grid"></div>
+      </div>
+      <!-- APPEARANCE -->
+      <div class="profile-section" id="ps-appearance">
+        <div class="profile-section-title">Appearance & Theme</div>
+        <div class="settings-row">
+          <div><div class="settings-label">Accent Color</div><div class="settings-desc">Choose your highlight color</div>
+          <div class="color-picker-row" id="color-picker">
+            <div class="color-swatch active" style="background:#00d97e" onclick="setAccent('#00d97e','#06b6d4')"></div>
+            <div class="color-swatch" style="background:#7c3aed" onclick="setAccent('#7c3aed','#c084fc')"></div>
+            <div class="color-swatch" style="background:#ec4899" onclick="setAccent('#ec4899','#f97316')"></div>
+            <div class="color-swatch" style="background:#f59e0b" onclick="setAccent('#f59e0b','#ef4444')"></div>
+            <div class="color-swatch" style="background:#06b6d4" onclick="setAccent('#06b6d4','#7c3aed')"></div>
+            <div class="color-swatch" style="background:#ef4444" onclick="setAccent('#ef4444','#f97316')"></div>
+          </div>
+          </div>
+        </div>
+        <div class="settings-row">
+          <div><div class="settings-label">Font Size</div><div class="settings-desc">Adjust reading size</div></div>
+          <select class="lang-select" onchange="setFontSize(this.value)" style="width:auto">
+            <option value="14">Small</option>
+            <option value="15" selected>Medium</option>
+            <option value="16">Large</option>
+            <option value="17">X-Large</option>
+          </select>
+        </div>
+        <div class="settings-row">
+          <div><div class="settings-label">Compact Mode</div><div class="settings-desc">Denser layout with less spacing</div></div>
+          <button class="toggle" id="toggle-compact" onclick="toggleCompact(this)"></button>
+        </div>
+        <div class="settings-row">
+          <div><div class="settings-label">Animations</div><div class="settings-desc">Enable scroll & hover animations</div></div>
+          <button class="toggle on" id="toggle-anim" onclick="toggleAnim(this)"></button>
+        </div>
+      </div>
+      <!-- NOTIFICATIONS -->
+      <div class="profile-section" id="ps-notifications-tab">
+        <div class="profile-section-title">Notification Preferences</div>
+        <div class="settings-row">
+          <div><div class="settings-label">Breaking Music News</div><div class="settings-desc">Instant alerts for major stories</div></div>
+          <button class="toggle on" onclick="this.classList.toggle('on')"></button>
+        </div>
+        <div class="settings-row">
+          <div><div class="settings-label">New Releases</div><div class="settings-desc">Albums & singles from your favorites</div></div>
+          <button class="toggle on" onclick="this.classList.toggle('on')"></button>
+        </div>
+        <div class="settings-row">
+          <div><div class="settings-label">Tour Announcements</div><div class="settings-desc">When artists announce concerts</div></div>
+          <button class="toggle" onclick="this.classList.toggle('on')"></button>
+        </div>
+        <div class="settings-row">
+          <div><div class="settings-label">Chart Updates</div><div class="settings-desc">Weekly chart movements</div></div>
+          <button class="toggle" onclick="this.classList.toggle('on')"></button>
+        </div>
+        <div class="settings-row">
+          <div><div class="settings-label">Daily Briefing Email</div><div class="settings-desc">Top stories every morning</div></div>
+          <button class="toggle on" onclick="this.classList.toggle('on')"></button>
+        </div>
+      </div>
+      <!-- PRIVACY -->
+      <div class="profile-section" id="ps-privacy">
+        <div class="profile-section-title">Privacy Settings</div>
+        <div class="settings-row">
+          <div><div class="settings-label">Public Profile</div><div class="settings-desc">Others can see your profile</div></div>
+          <button class="toggle" onclick="this.classList.toggle('on')"></button>
+        </div>
+        <div class="settings-row">
+          <div><div class="settings-label">Show Listening Activity</div><div class="settings-desc">Display what you're listening to</div></div>
+          <button class="toggle" onclick="this.classList.toggle('on')"></button>
+        </div>
+        <div class="settings-row">
+          <div><div class="settings-label">Analytics Cookies</div><div class="settings-desc">Help improve the site</div></div>
+          <button class="toggle on" onclick="this.classList.toggle('on')"></button>
+        </div>
+        <div style="margin-top:20px">
+          <button class="ai-btn" onclick="if(confirm('Sign out?')){signOut()}" style="color:var(--red);border-color:rgba(239,68,68,.3)">🚪 Sign Out</button>
+          <button class="ai-btn" onclick="if(confirm('Delete account? This cannot be undone.')){deleteAccount()}" style="color:var(--red);border-color:rgba(239,68,68,.3);margin-left:8px">🗑️ Delete Account</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div>
+      <div class="footer-col-title">Charts</div>
+      <span class="footer-link" onclick="goPage('charts')">Global Top 100</span>
+      <span class="footer-link" onclick="goPage('charts')">US Hot 100</span>
+      <span class="footer-link" onclick="goPage('charts')">UK Singles</span>
+      <span class="footer-link" onclick="goPage('charts')">Latin Charts</span>
+      <span class="footer-link" onclick="goPage('charts')">K-Pop Charts</span>
+    </div>
+    <div>
+      <div class="footer-col-title">Music</div>
+      <span class="footer-link" onclick="goPage('news')">Music News</span>
+      <span class="footer-link" onclick="goPage('albums')">New Albums</span>
+      <span class="footer-link" onclick="goPage('concerts')">Concerts</span>
+      <span class="footer-link" onclick="goPage('festivals')">Festivals</span>
+      <span class="footer-link" onclick="goPage('awards')">Awards</span>
+    </div>
+    <div>
+      <div class="footer-col-title">Discover</div>
+      <span class="footer-link" onclick="goPage('artists')">Artists A–Z</span>
+      <span class="footer-link" onclick="goPage('artists')">Underground</span>
+      <span class="footer-link" onclick="goPage('artists')">Emerging Acts</span>
+      <span class="footer-link" onclick="goPage('artists')">Genre Explorer</span>
+    </div>
+    <div>
+      <div class="footer-col-title">WorldMusicNow</div>
+      <span class="footer-link">About</span>
+      <span class="footer-link">Contact</span>
+      <span class="footer-link">Privacy Policy</span>
+      <span class="footer-link">Terms of Use</span>
+      <span class="footer-link" onclick="openAuth('register')">Join Free</span>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 WorldMusicNow. All rights reserved.</span>
+    <span style="color:var(--green)">Live music intelligence, 24/7</span>
+  </div>
+</footer>
+
+<!-- AUTH MODAL -->
+<div class="modal-ov" id="auth-modal">
+  <div class="modal-box">
+    <div class="modal-hdr">
+      <span class="modal-title">WorldMusicNow</span>
+      <button class="modal-close" onclick="closeAuth()">×</button>
+    </div>
+    <div class="modal-tabs" style="margin-top:14px">
+      <button class="modal-tab active" id="mtab-login" onclick="switchAuthTab('login')">Sign In</button>
+      <button class="modal-tab" id="mtab-register" onclick="switchAuthTab('register')">Join Free</button>
+    </div>
+    <div class="modal-body">
+      <div class="modal-form active" id="mf-login">
+        <label class="modal-label">Email</label>
+        <input class="modal-input" type="email" id="l-email" placeholder="your@email.com" onkeydown="if(event.key==='Enter')login()">
+        <label class="modal-label">Password</label>
+        <input class="modal-input" type="password" id="l-pass" placeholder="••••••••" onkeydown="if(event.key==='Enter')login()">
+        <button class="modal-btn" onclick="login()">Sign In</button>
+      </div>
+      <div class="modal-form" id="mf-register">
+        <label class="modal-label">Name</label>
+        <input class="modal-input" type="text" id="r-name" placeholder="Your name">
+        <label class="modal-label">Email</label>
+        <input class="modal-input" type="email" id="r-email" placeholder="your@email.com">
+        <label class="modal-label">Password</label>
+        <input class="modal-input" type="password" id="r-pass" placeholder="6+ characters">
+        <button class="modal-btn" onclick="register()">Create Account</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- AI CHAT FAB -->
+<button class="ai-chat-fab" id="ai-chat-fab" onclick="toggleChat()" title="AI Music Assistant">🎵</button>
+
+<!-- AI CHAT WINDOW -->
+<div class="ai-chat-window" id="ai-chat-win">
+  <div class="ai-chat-hdr">
+    <div class="ai-chat-avatar">♪</div>
+    <div>
+      <div class="ai-chat-title">Music Assistant</div>
+      <div style="font-size:10px;color:var(--green);display:flex;align-items:center;gap:4px"><span class="ldot"></span> Online</div>
+    </div>
+    <button class="ai-chat-close" onclick="toggleChat()">×</button>
+  </div>
+  <div class="ai-chat-msgs" id="ai-chat-msgs">
+    <div class="chat-msg ai">Hi! I'm your music assistant. Ask me anything — charts, artists, news, lyrics, history, recommendations. What's on your mind? 🎵</div>
+  </div>
+  <div class="ai-chat-suggestions" id="ai-chat-sugs">
+    <span class="ai-chat-sug" onclick="chatSug(this)">#1 song today</span>
+    <span class="ai-chat-sug" onclick="chatSug(this)">Best albums 2026</span>
+    <span class="ai-chat-sug" onclick="chatSug(this)">Who is Kendrick Lamar?</span>
+    <span class="ai-chat-sug" onclick="chatSug(this)">Latin music trends</span>
+  </div>
+  <div class="ai-chat-input-row">
+    <input class="ai-chat-input" id="ai-chat-input" placeholder="Ask anything about music…" onkeydown="if(event.key==='Enter')sendChat()">
+    <button class="ai-chat-send" onclick="sendChat()">Send</button>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<script>
+// ═══════════════════════════════════════════════════════
+// DATA
+// ═══════════════════════════════════════════════════════
+
+// Real Wikimedia/Unsplash-compatible image URLs for artists
+const ARTIST_PHOTOS = {
+  "Kendrick Lamar": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/be/Kendrick_Lamar_-_Overground_Festival_2023.jpg/480px-Kendrick_Lamar_-_Overground_Festival_2023.jpg",
+  "Taylor Swift": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b5/191125_Taylor_Swift_at_the_2019_American_Music_Awards_%28cropped%29.png/480px-191125_Taylor_Swift_at_the_2019_American_Music_Awards_%28cropped%29.png",
+  "Beyoncé": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/17/Beyonc%C3%A9_at_The_Lion_King_European_Premiere_2019.png/480px-Beyonc%C3%A9_at_The_Lion_King_European_Premiere_2019.png",
+  "Drake": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/28/Drake_июль_2016.jpg/480px-Drake_июль_2016.jpg",
+  "SZA": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6c/SZA_2022_%28cropped%29.jpg/480px-SZA_2022_%28cropped%29.jpg",
+  "Bad Bunny": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7c/Bad_Bunny_2022_%28cropped%29.jpg/480px-Bad_Bunny_2022_%28cropped%29.jpg",
+  "Billie Eilish": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/87/Billie_Eilish_2019_by_Glenn_Francis_%28cropped%29.jpg/480px-Billie_Eilish_2019_by_Glenn_Francis_%28cropped%29.jpg",
+  "Dua Lipa": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b5/Dua_Lipa_2017_%28cropped%29.jpg/480px-Dua_Lipa_2017_%28cropped%29.jpg",
+  "The Weeknd": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/The_Weeknd_in_2023_%28cropped%29.jpg/480px-The_Weeknd_in_2023_%28cropped%29.jpg",
+  "Sabrina Carpenter": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/32/Sabrina_Carpenter_%28May_2023%29.jpg/480px-Sabrina_Carpenter_%28May_2023%29.jpg",
+  "Chappell Roan": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3f/Chappell_Roan_2024.jpg/480px-Chappell_Roan_2024.jpg",
+  "Ariana Grande": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b4/Ariana_Grande_2019_by_Glenn_Francis.jpg/480px-Ariana_Grande_2019_by_Glenn_Francis.jpg",
+  "Post Malone": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3d/Post_Malone_2019.jpg/480px-Post_Malone_2019.jpg",
+  "Harry Styles": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/cd/Harry_Styles_2020_%28cropped%29.jpg/480px-Harry_Styles_2020_%28cropped%29.jpg",
+  "Olivia Rodrigo": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1c/Olivia_Rodrigo_at_the_2021_AMAs.jpg/480px-Olivia_Rodrigo_at_the_2021_AMAs.jpg",
+  "BTS": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0f/BTS_at_the_2019_Melon_Music_Awards.jpg/480px-BTS_at_the_2019_Melon_Music_Awards.jpg",
+  "BLACKPINK": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4e/190830_Inkigayo_-_BLACKPINK_%28cropped%29.jpg/480px-190830_Inkigayo_-_BLACKPINK_%28cropped%29.jpg",
+  "Burna Boy": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/55/Burna_Boy_2019_%28cropped%29.jpg/480px-Burna_Boy_2019_%28cropped%29.jpg",
+  "Morgan Wallen": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7a/Morgan_Wallen_%28cropped%29.jpg/480px-Morgan_Wallen_%28cropped%29.jpg",
+  "Zach Bryan": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9b/Zach_Bryan_2023.jpg/480px-Zach_Bryan_2023.jpg",
+};
+
+// News images from Unsplash (free to use)
+const NEWS_IMGS = {
+  "tag-hiphop": "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=600&q=80",
+  "tag-pop": "https://images.unsplash.com/photo-1501386761578-eac5c94b800a?w=600&q=80",
+  "tag-rock": "https://images.unsplash.com/photo-1598387993441-a364f854cfb5?w=600&q=80",
+  "tag-rb": "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=600&q=80",
+  "tag-latin": "https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?w=600&q=80",
+  "tag-indie": "https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?w=600&q=80",
+  "tag-edm": "https://images.unsplash.com/photo-1571266028243-e4d18e83e077?w=600&q=80",
+  "tag-kpop": "https://images.unsplash.com/photo-1506157786151-b8491531f063?w=600&q=80",
+  "tag-metal": "https://images.unsplash.com/photo-1459749411175-04bf5292ceea?w=600&q=80",
+  "tag-afrobeats": "https://images.unsplash.com/photo-1514320291840-2e0a9bf2a9ae?w=600&q=80",
+  "tag-folk": "https://images.unsplash.com/photo-1415201364774-f6f0bb35f28f?w=600&q=80",
+  "tag-jazz": "https://images.unsplash.com/photo-1415201364774-f6f0bb35f28f?w=600&q=80",
+  "default": "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=600&q=80",
+};
+
+const ARTIST_DB = {
+  trending:[
+    {n:"Kendrick Lamar",g:"Hip-Hop",e:"👑",s:"61.4M/day",rank:"#1"},
+    {n:"Sabrina Carpenter",g:"Pop",e:"☕",s:"49.2M/day",rank:"#2"},
+    {n:"Chappell Roan",g:"Pop",e:"🌹",s:"54.8M/day",rank:"#3"},
+    {n:"SZA",g:"R&B",e:"🪐",s:"44.7M/day",rank:"#4"},
+    {n:"Bad Bunny",g:"Latin",e:"🐰",s:"41.3M/day",rank:"#5"},
+    {n:"Billie Eilish",g:"Alt-Pop",e:"🖤",s:"38.9M/day",rank:"#6"},
+    {n:"Taylor Swift",g:"Pop/Country",e:"✨",s:"37.4M/day",rank:"#7"},
+    {n:"Morgan Wallen",g:"Country",e:"🎸",s:"32.3M/day",rank:"#8"},
+    {n:"The Weeknd",g:"R&B/Pop",e:"🌙",s:"30.2M/day",rank:"#9"},
+    {n:"Zach Bryan",g:"Country",e:"🤠",s:"28.7M/day",rank:"#10"},
+  ],
+  pop:[
+    {n:"Taylor Swift",g:"Pop",e:"✨",s:"37.4M/day"},
+    {n:"Sabrina Carpenter",g:"Pop",e:"☕",s:"49.2M/day"},
+    {n:"Chappell Roan",g:"Pop",e:"🌹",s:"54.8M/day"},
+    {n:"Ariana Grande",g:"Pop",e:"🌙",s:"25.1M/day"},
+    {n:"Dua Lipa",g:"Pop",e:"💙",s:"21.7M/day"},
+    {n:"Harry Styles",g:"Pop/Rock",e:"🌈",s:"18.3M/day"},
+    {n:"Olivia Rodrigo",g:"Pop/Rock",e:"🍒",s:"22.8M/day"},
+    {n:"Billie Eilish",g:"Alt-Pop",e:"🖤",s:"38.9M/day"},
+    {n:"Benson Boone",g:"Pop",e:"🎵",s:"14.2M/day"},
+    {n:"Gracie Abrams",g:"Indie Pop",e:"🌿",s:"9.4M/day"},
+  ],
+  hiphop:[
+    {n:"Kendrick Lamar",g:"Hip-Hop",e:"👑",s:"61.4M/day"},
+    {n:"Drake",g:"Hip-Hop/R&B",e:"🦉",s:"29.8M/day"},
+    {n:"Tyler, the Creator",g:"Hip-Hop",e:"🌸",s:"19.7M/day"},
+    {n:"Travis Scott",g:"Hip-Hop",e:"🔥",s:"22.3M/day"},
+    {n:"J. Cole",g:"Hip-Hop",e:"🌲",s:"16.8M/day"},
+    {n:"Future",g:"Hip-Hop/Trap",e:"💜",s:"14.9M/day"},
+    {n:"Lil Baby",g:"Hip-Hop",e:"🏀",s:"13.2M/day"},
+    {n:"Metro Boomin",g:"Hip-Hop",e:"🦇",s:"11.7M/day"},
+    {n:"GloRilla",g:"Hip-Hop",e:"👑",s:"10.4M/day"},
+    {n:"Sexyy Red",g:"Hip-Hop",e:"💅",s:"9.8M/day"},
+  ],
+  rock:[
+    {n:"Oasis",g:"Britpop/Rock",e:"🎸",s:"28.4M/day"},
+    {n:"Linkin Park",g:"Rock/Alternative",e:"⚡",s:"18.7M/day"},
+    {n:"Hozier",g:"Folk/Rock",e:"🌿",s:"11.3M/day"},
+    {n:"Coldplay",g:"Alternative Rock",e:"⭐",s:"15.9M/day"},
+    {n:"The 1975",g:"Indie Rock",e:"🌙",s:"9.8M/day"},
+    {n:"Arctic Monkeys",g:"Indie Rock",e:"🐒",s:"13.4M/day"},
+    {n:"Fontaines D.C.",g:"Post-Punk",e:"🇮🇪",s:"7.2M/day"},
+    {n:"Wet Leg",g:"Indie Rock",e:"🦵",s:"5.6M/day"},
+    {n:"Boygenius",g:"Indie Rock",e:"🌟",s:"8.1M/day"},
+    {n:"Radiohead",g:"Alt Rock",e:"🐻",s:"12.3M/day"},
+  ],
+  rnb:[
+    {n:"SZA",g:"R&B/Soul",e:"🪐",s:"44.7M/day"},
+    {n:"The Weeknd",g:"R&B/Pop",e:"🌙",s:"30.2M/day"},
+    {n:"Usher",g:"R&B",e:"💫",s:"14.8M/day"},
+    {n:"Jhené Aiko",g:"R&B/Soul",e:"🌸",s:"8.9M/day"},
+    {n:"Brent Faiyaz",g:"R&B",e:"🌙",s:"11.3M/day"},
+    {n:"Summer Walker",g:"R&B",e:"☀️",s:"9.4M/day"},
+    {n:"Victoria Monét",g:"R&B",e:"🦋",s:"7.8M/day"},
+    {n:"Coco Jones",g:"R&B",e:"💖",s:"6.3M/day"},
+    {n:"Daniel Caesar",g:"R&B",e:"🎸",s:"7.1M/day"},
+    {n:"Lucky Daye",g:"R&B",e:"🍀",s:"5.4M/day"},
+  ],
+  electronic:[
+    {n:"Fred again..",g:"Electronic",e:"🎛️",s:"12.8M/day"},
+    {n:"Calvin Harris",g:"EDM/Dance",e:"⚡",s:"10.4M/day"},
+    {n:"John Summit",g:"House",e:"🏔️",s:"8.1M/day"},
+    {n:"Peggy Gou",g:"Tech House",e:"🧡",s:"7.4M/day"},
+    {n:"Skrillex",g:"Dubstep/Bass",e:"💀",s:"9.2M/day"},
+    {n:"Four Tet",g:"Electronic",e:"🔮",s:"5.8M/day"},
+    {n:"Aphex Twin",g:"Experimental",e:"⚙️",s:"4.1M/day",u:true},
+    {n:"Floating Points",g:"Electronic/Jazz",e:"🌊",s:"3.4M/day",u:true},
+    {n:"Jamie xx",g:"Electronic",e:"🎹",s:"6.2M/day"},
+    {n:"BICEP",g:"Electronic",e:"🌈",s:"5.9M/day"},
+  ],
+  latin:[
+    {n:"Bad Bunny",g:"Reggaeton/Latin",e:"🐰",s:"41.3M/day"},
+    {n:"J Balvin",g:"Reggaeton",e:"🌈",s:"18.2M/day"},
+    {n:"Karol G",g:"Latin Pop/Trap",e:"💙",s:"21.9M/day"},
+    {n:"Rosalía",g:"Spanish Pop/Flamenco",e:"🌹",s:"16.4M/day"},
+    {n:"Peso Pluma",g:"Regional Mexican",e:"🦅",s:"19.7M/day"},
+    {n:"Maluma",g:"Reggaeton/Latin Pop",e:"💛",s:"12.1M/day"},
+    {n:"Rauw Alejandro",g:"Reggaeton",e:"💎",s:"14.8M/day"},
+    {n:"Farruko",g:"Reggaeton/Latin Pop",e:"🦋",s:"8.4M/day"},
+    {n:"Myke Towers",g:"Reggaeton",e:"🗼",s:"10.3M/day"},
+    {n:"Nicky Jam",g:"Reggaeton",e:"👑",s:"9.7M/day"},
+  ],
+  kpop:[
+    {n:"BTS",g:"K-Pop",e:"💜",s:"42.3M/day"},
+    {n:"BLACKPINK",g:"K-Pop",e:"🖤💗",s:"38.7M/day"},
+    {n:"Stray Kids",g:"K-Pop",e:"🐺",s:"22.4M/day"},
+    {n:"NewJeans",g:"K-Pop",e:"👖",s:"19.1M/day"},
+    {n:"aespa",g:"K-Pop",e:"🤖",s:"18.3M/day"},
+    {n:"TWICE",g:"K-Pop",e:"💝",s:"17.8M/day"},
+    {n:"EXO",g:"K-Pop",e:"🌙",s:"15.2M/day"},
+    {n:"ENHYPEN",g:"K-Pop",e:"🌙",s:"13.4M/day"},
+    {n:"Le Sserafim",g:"K-Pop",e:"🔥",s:"16.7M/day"},
+    {n:"IVE",g:"K-Pop",e:"🌸",s:"14.9M/day"},
+  ],
+  metal:[
+    {n:"Metallica",g:"Heavy Metal",e:"⚡",s:"14.1M/day"},
+    {n:"Ghost",g:"Rock/Metal",e:"💀",s:"8.4M/day"},
+    {n:"Slipknot",g:"Nu-Metal",e:"🎭",s:"9.3M/day"},
+    {n:"Tool",g:"Progressive Metal",e:"🔧",s:"7.8M/day"},
+    {n:"Sleep Token",g:"Progressive Metal",e:"🌊",s:"8.7M/day"},
+    {n:"Gojira",g:"Death Metal",e:"🌿",s:"6.2M/day"},
+    {n:"Mastodon",g:"Progressive Metal",e:"🦣",s:"4.8M/day"},
+    {n:"Spiritbox",g:"Metalcore",e:"👻",s:"4.4M/day"},
+    {n:"Turnstile",g:"Hardcore",e:"🌊",s:"3.9M/day"},
+    {n:"Code Orange",g:"Hardcore/Metal",e:"🟠",s:"2.4M/day",u:true},
+  ],
+  jazz:[
+    {n:"Kamasi Washington",g:"Jazz",e:"🎷",s:"2.8M/day"},
+    {n:"Thundercat",g:"Jazz/R&B",e:"🐱",s:"4.1M/day"},
+    {n:"Jacob Collier",g:"Jazz/Pop",e:"🎹",s:"4.7M/day"},
+    {n:"Robert Glasper",g:"Jazz/R&B",e:"🎹",s:"3.2M/day"},
+    {n:"Nubya Garcia",g:"Jazz",e:"🎷",s:"1.2M/day",u:true},
+    {n:"Shabaka Hutchings",g:"Jazz",e:"🎷",s:"0.9M/day",u:true},
+    {n:"Makaya McCraven",g:"Jazz",e:"🥁",s:"0.7M/day",u:true},
+    {n:"Esperanza Spalding",g:"Jazz",e:"🎸",s:"1.9M/day"},
+  ],
+  folk:[
+    {n:"Noah Kahan",g:"Folk/Indie",e:"🍂",s:"18.8M/day"},
+    {n:"Hozier",g:"Folk/Rock",e:"🌿",s:"11.3M/day"},
+    {n:"Morgan Wallen",g:"Country",e:"🎸",s:"32.3M/day"},
+    {n:"Zach Bryan",g:"Country",e:"🤠",s:"28.7M/day"},
+    {n:"Tyler Childers",g:"Country/Folk",e:"🏔️",s:"8.7M/day"},
+    {n:"Phoebe Bridgers",g:"Indie Folk",e:"💀",s:"7.4M/day"},
+    {n:"Boygenius",g:"Indie Rock/Folk",e:"🌟",s:"8.1M/day"},
+    {n:"Sufjan Stevens",g:"Indie Folk",e:"🌙",s:"4.2M/day"},
+    {n:"Lana Del Rey",g:"Indie Pop",e:"🌹",s:"16.2M/day"},
+    {n:"Gracie Abrams",g:"Indie/Folk",e:"🌿",s:"9.4M/day"},
+  ],
+  afrobeats:[
+    {n:"Burna Boy",g:"Afrobeats",e:"🦁",s:"14.8M/day"},
+    {n:"Wizkid",g:"Afrobeats",e:"✨",s:"13.2M/day"},
+    {n:"Tems",g:"Afrobeats/R&B",e:"🌟",s:"12.4M/day"},
+    {n:"Davido",g:"Afrobeats",e:"🎵",s:"10.9M/day"},
+    {n:"Rema",g:"Afrobeats",e:"🎵",s:"11.7M/day"},
+    {n:"Asake",g:"Afrobeats/Amapiano",e:"🎵",s:"9.3M/day"},
+    {n:"Ayra Starr",g:"Afropop",e:"⭐",s:"6.8M/day"},
+    {n:"CKay",g:"Afrobeats",e:"🎸",s:"8.4M/day"},
+    {n:"Fireboy DML",g:"Afrobeats",e:"🔥",s:"7.1M/day"},
+    {n:"Omah Lay",g:"Afropop",e:"✨",s:"5.9M/day"},
+  ],
+  indie:[
+    {n:"Mitski",g:"Indie Rock",e:"🌸",s:"9.4M/day"},
+    {n:"Japanese Breakfast",g:"Indie Pop",e:"🌸",s:"4.8M/day"},
+    {n:"Beach House",g:"Dream Pop",e:"🌊",s:"5.2M/day"},
+    {n:"Weyes Blood",g:"Art Pop",e:"🌹",s:"3.4M/day",u:true},
+    {n:"Angel Olsen",g:"Indie Folk",e:"🌼",s:"2.1M/day",u:true},
+    {n:"Snail Mail",g:"Indie Rock",e:"🐌",s:"3.1M/day",u:true},
+    {n:"Wednesday",g:"Indie Rock",e:"🌩️",s:"1.7M/day",u:true},
+    {n:"Bar Italia",g:"Indie Rock",e:"🍕",s:"1.2M/day",u:true},
+    {n:"Caroline Polachek",g:"Art Pop",e:"🌙",s:"6.8M/day"},
+    {n:"Soccer Mommy",g:"Indie Pop",e:"⚽",s:"2.8M/day",u:true},
+  ],
+  underground:[
+    {n:"billy woods",g:"Underground Rap",e:"🌲",s:"0.9M/day",u:true},
+    {n:"Jpegmafia",g:"Experimental Hip-Hop",e:"🔊",s:"2.1M/day",u:true},
+    {n:"Danny Brown",g:"Experimental Hip-Hop",e:"🐶",s:"1.8M/day",u:true},
+    {n:"Moor Mother",g:"Experimental",e:"🔮",s:"0.4M/day",u:true},
+    {n:"Injury Reserve",g:"Experimental Hip-Hop",e:"⚡",s:"1.1M/day",u:true},
+    {n:"Quelle Chris",g:"Underground Rap",e:"🌀",s:"0.6M/day",u:true},
+    {n:"Armand Hammer",g:"Underground Rap",e:"🔨",s:"0.5M/day",u:true},
+    {n:"Show Me the Body",g:"Hardcore",e:"🏙️",s:"0.9M/day",u:true},
+  ]
+};
+
+const ARTICLES=[
+  {title:"Kendrick Lamar GNX World Tour: 8 Million Tickets in 12 Hours",cat:"Hip-Hop",tag:"tag-hiphop",desc:"Kendrick Lamar's GNX World Tour has shattered every first-day sales record in history, with 8 million tickets sold across 47 countries in just 12 hours.",time:"2 hr ago",read:"5 min",src:"Billboard",url:"https://www.billboard.com"},
+  {title:"Beyoncé Confirms Renaissance III — September 12, 2026",cat:"Pop/R&B",tag:"tag-rb",desc:"Beyoncé has officially confirmed Renaissance III blending Afrobeats, jazz, and electronic production for a September release.",time:"4 hr ago",read:"4 min",src:"Rolling Stone",url:"https://www.rollingstone.com"},
+  {title:"Chappell Roan Sweeps 2026 Grammy Awards With 5 Wins",cat:"Pop",tag:"tag-pop",desc:"Chappell Roan had the night of her career at the 68th Grammy Awards, taking home Record, Album, and Best New Artist.",time:"6 hr ago",read:"6 min",src:"Pitchfork",url:"https://pitchfork.com"},
+  {title:"Oasis Reunion Tour Leg 2: 14 North American Stadiums Sell Out",cat:"Rock",tag:"tag-rock",desc:"Leg 2 of the Oasis reunion tour added 14 North American stadium dates which sold out in under 90 minutes.",time:"7 hr ago",read:"3 min",src:"NME",url:"https://www.nme.com"},
+  {title:"Bad Bunny New Album: Features Rosalía and Peso Pluma",cat:"Latin",tag:"tag-latin",desc:"Details of Bad Bunny's forthcoming album have leaked: a 17-track project with Rosalía, J Balvin, and Peso Pluma.",time:"8 hr ago",read:"3 min",src:"Pitchfork",url:"https://pitchfork.com",live:true},
+  {title:"Glastonbury 2026: Kendrick, Dua Lipa & Radiohead Headline",cat:"Rock",tag:"tag-rock",desc:"Glastonbury 2026 has unveiled its full lineup. Kendrick Lamar takes the Pyramid Stage on Friday, Dua Lipa closes Saturday.",time:"10 hr ago",read:"4 min",src:"Guardian",url:"https://www.theguardian.com"},
+  {title:"Billie Eilish Surprise Album Drops July 4 With FINNEAS",cat:"Alt-Pop",tag:"tag-indie",desc:"Billie Eilish announced a surprise collaborative album with FINNEAS, 'Everything Was Beautiful', set for July 4, 2026.",time:"11 hr ago",read:"4 min",src:"Consequence",url:"https://consequence.net"},
+  {title:"Spotify Hits 700 Million Monthly Active Users",cat:"Industry",tag:"tag-edm",desc:"Spotify reached 700 million monthly active users as of Q2 2026 driven by AI playlist features.",time:"12 hr ago",read:"5 min",src:"TechCrunch",url:"https://techcrunch.com"},
+  {title:"SZA 'Lana' Goes 5x Platinum — Fastest R&B Album in 15 Years",cat:"R&B",tag:"tag-rb",desc:"SZA's 'Lana' certified 5x platinum just three months after release.",time:"13 hr ago",read:"3 min",src:"Billboard",url:"https://www.billboard.com"},
+  {title:"Burna Boy's Tour Breaks African Stadium Records in Paris",cat:"Afrobeats",tag:"tag-afrobeats",desc:"Burna Boy became the first African artist to sell out 3 consecutive nights at a European stadium.",time:"16 hr ago",read:"4 min",src:"Rolling Stone",url:"https://www.rollingstone.com"},
+  {title:"Fred again.. Drops Surprise 'Actual Life 4'",cat:"Electronic",tag:"tag-edm",desc:"Fred again.. released Actual Life 4 without warning, continuing his acclaimed emotionally resonant series.",time:"18 hr ago",read:"4 min",src:"Pitchfork",url:"https://pitchfork.com"},
+  {title:"BTS ARIRANG World Tour Kicks Off European Leg in Madrid",cat:"K-Pop",tag:"tag-kpop",desc:"BTS began the European leg of their ARIRANG World Tour following the military service return of all members.",time:"20 hr ago",read:"3 min",src:"Billboard",url:"https://www.billboard.com"},
+];
+
+const LIVE_ARTICLES=[];
+
+const SONGS={
+  global:[
+    {r:"1",t:"Not Like Us",a:"Kendrick Lamar",e:"👑",s:"61.4M",c:"↑2",top:true},
+    {r:"2",t:"Pink Pony Club",a:"Chappell Roan",e:"🌹",s:"54.8M",c:"↑5",top:true},
+    {r:"3",t:"Espresso",a:"Sabrina Carpenter",e:"☕",s:"49.2M",c:"↓1",top:true},
+    {r:"4",t:"Saturn",a:"SZA",e:"🪐",s:"44.7M",c:"↑3"},
+    {r:"5",t:"Debí Tirar Más Fotos",a:"Bad Bunny",e:"🐰",s:"41.3M",c:"→"},
+    {r:"6",t:"Birds of a Feather",a:"Billie Eilish",e:"🐦",s:"38.9M",c:"↓2"},
+    {r:"7",t:"Die With a Smile",a:"Lady Gaga & Bruno Mars",e:"💃",s:"36.2M",c:"↑1"},
+    {r:"8",t:"luther",a:"Kendrick Lamar & SZA",e:"❤️",s:"34.7M",c:"↑4"},
+    {r:"9",t:"Taste",a:"Sabrina Carpenter",e:"☕",s:"32.1M",c:"↓1"},
+    {r:"10",t:"Stick Season",a:"Noah Kahan",e:"🍂",s:"30.4M",c:"↑2"},
+  ],
+  us:[
+    {r:"1",t:"Not Like Us",a:"Kendrick Lamar",e:"👑",s:"9.8M",c:"→",top:true},
+    {r:"2",t:"Espresso",a:"Sabrina Carpenter",e:"☕",s:"8.4M",c:"↑1",top:true},
+    {r:"3",t:"Please Please Please",a:"Sabrina Carpenter",e:"🙏",s:"7.9M",c:"↓1",top:true},
+    {r:"4",t:"I Had Some Help",a:"Post Malone ft. Morgan Wallen",e:"🎸",s:"7.2M",c:"↑2"},
+    {r:"5",t:"A Bar Song",a:"Shaboozey",e:"🍺",s:"6.8M",c:"↑3"},
+    {r:"6",t:"Austin",a:"Dasha",e:"🤠",s:"6.1M",c:"↑5"},
+    {r:"7",t:"Beautiful Things",a:"Benson Boone",e:"✨",s:"5.9M",c:"↓2"},
+    {r:"8",t:"Saturn",a:"SZA",e:"🪐",s:"5.6M",c:"↑1"},
+    {r:"9",t:"That's So True",a:"Gracie Abrams",e:"💚",s:"5.3M",c:"↑6"},
+    {r:"10",t:"Die With a Smile",a:"Lady Gaga & Bruno Mars",e:"💃",s:"5.1M",c:"↓1"},
+  ],
+  uk:[
+    {r:"1",t:"Pink Pony Club",a:"Chappell Roan",e:"🌹",s:"4.2M",c:"↑3",top:true},
+    {r:"2",t:"Good Luck Babe",a:"Chappell Roan",e:"🍀",s:"3.8M",c:"↑1",top:true},
+    {r:"3",t:"Espresso",a:"Sabrina Carpenter",e:"☕",s:"3.4M",c:"↓1",top:true},
+    {r:"4",t:"Not Like Us",a:"Kendrick Lamar",e:"👑",s:"3.1M",c:"↑2"},
+    {r:"5",t:"BIRDS OF A FEATHER",a:"Billie Eilish",e:"🐦",s:"2.9M",c:"→"},
+    {r:"6",t:"Stutter",a:"Rimon",e:"🎵",s:"2.7M",c:"NEW"},
+    {r:"7",t:"Die With a Smile",a:"Lady Gaga & Bruno Mars",e:"💃",s:"2.5M",c:"↓1"},
+    {r:"8",t:"luther",a:"Kendrick Lamar & SZA",e:"❤️",s:"2.3M",c:"↑2"},
+    {r:"9",t:"Too Good to Say Goodbye",a:"Bruno Mars",e:"🎷",s:"2.1M",c:"↑4"},
+    {r:"10",t:"That's So True",a:"Gracie Abrams",e:"💚",s:"1.9M",c:"↑8"},
+  ],
+  latin:[
+    {r:"1",t:"Debí Tirar Más Fotos",a:"Bad Bunny",e:"🐰",s:"12.4M",c:"→",top:true},
+    {r:"2",t:"TQG",a:"Karol G & Shakira",e:"💙",s:"9.7M",c:"↑1",top:true},
+    {r:"3",t:"Ella Baila Sola",a:"Peso Pluma & Eslabon Armado",e:"🦅",s:"8.9M",c:"↓1",top:true},
+    {r:"4",t:"Luna",a:"Rauw Alejandro",e:"🌙",s:"7.2M",c:"↑2"},
+    {r:"5",t:"GATA ONLY",a:"FloyyMenor & Cris Mj",e:"🐱",s:"6.8M",c:"↑4"},
+    {r:"6",t:"Beso",a:"Rosalía & Rauw Alejandro",e:"💋",s:"5.9M",c:"↓2"},
+    {r:"7",t:"La Fama",a:"Rosalía & The Weeknd",e:"🌹",s:"5.4M",c:"↑1"},
+    {r:"8",t:"Felices los 4",a:"Maluma",e:"💛",s:"4.8M",c:"→"},
+    {r:"9",t:"SHAKIRA: BZRP Music Sessions",a:"Bizarrap & Shakira",e:"⚡",s:"4.4M",c:"↓3"},
+    {r:"10",t:"La Bachata",a:"Manuel Turizo",e:"🎵",s:"4.1M",c:"↑5"},
+  ],
+  kpop:[
+    {r:"1",t:"POWER",a:"EXO",e:"🌙",s:"8.4M",c:"↑2",top:true},
+    {r:"2",t:"Super",a:"EXO",e:"🌙",s:"7.9M",c:"→",top:true},
+    {r:"3",t:"Chk Chk Boom",a:"NewJeans",e:"👖",s:"7.2M",c:"↑4",top:true},
+    {r:"4",t:"GODS",a:"NewJeans",e:"👖",s:"6.8M",c:"↓1"},
+    {r:"5",t:"MIROH",a:"Stray Kids",e:"🐺",s:"6.1M",c:"↑1"},
+    {r:"6",t:"Social Path",a:"Stray Kids",e:"🐺",s:"5.7M",c:"↑3"},
+    {r:"7",t:"Supernova",a:"aespa",e:"🤖",s:"5.3M",c:"↓2"},
+    {r:"8",t:"EASY",a:"Le Sserafim",e:"🔥",s:"4.9M",c:"↑2"},
+    {r:"9",t:"HEYA",a:"IVE",e:"🌸",s:"4.4M",c:"↑1"},
+    {r:"10",t:"Ditto",a:"NewJeans",e:"👖",s:"4.1M",c:"↑3"},
+  ],
+  streaming:[
+    {r:"1",t:"luther",a:"Kendrick Lamar & SZA",e:"❤️",s:"1.2B total",c:"↑4",top:true},
+    {r:"2",t:"Espresso",a:"Sabrina Carpenter",e:"☕",s:"1.8B total",c:"→",top:true},
+    {r:"3",t:"Not Like Us",a:"Kendrick Lamar",e:"👑",s:"2.1B total",c:"↑1",top:true},
+    {r:"4",t:"Birds of a Feather",a:"Billie Eilish",e:"🐦",s:"900M total",c:"↑2"},
+    {r:"5",t:"APT.",a:"ROSÉ & Bruno Mars",e:"🌹",s:"850M total",c:"↑3"},
+    {r:"6",t:"Die With a Smile",a:"Lady Gaga & Bruno Mars",e:"💃",s:"780M total",c:"↑1"},
+    {r:"7",t:"Saturn",a:"SZA",e:"🪐",s:"1.1B total",c:"↓1"},
+    {r:"8",t:"A Bar Song",a:"Shaboozey",e:"🍺",s:"720M total",c:"↑5"},
+    {r:"9",t:"Please Please Please",a:"Sabrina Carpenter",e:"🙏",s:"680M total",c:"↓2"},
+    {r:"10",t:"That's So True",a:"Gracie Abrams",e:"💚",s:"640M total",c:"↑7"},
+  ]
+};
+
+const ALBUMS=[
+  {title:"Short n' Sweet",artist:"Sabrina Carpenter",cover:"https://upload.wikimedia.org/wikipedia/en/a/a0/Sabrina_Carpenter_-_Short_n%27_Sweet.png",year:2024,label:"Island",e:"☕",badge:"5x Platinum"},
+  {title:"GNX",artist:"Kendrick Lamar",cover:"https://upload.wikimedia.org/wikipedia/en/0/0f/Kendrick_Lamar_-_GNX.png",year:2024,label:"TDE/Interscope",e:"👑",badge:"Album of the Year"},
+  {title:"Radical Optimism",artist:"Dua Lipa",cover:"https://upload.wikimedia.org/wikipedia/en/3/3c/Dua_Lipa_-_Radical_Optimism.png",year:2024,label:"Warner",e:"💙",badge:"Platinum"},
+  {title:"CHROMAKOPIA",artist:"Tyler, the Creator",cover:"https://upload.wikimedia.org/wikipedia/en/1/10/Tyler_the_Creator_-_Chromakopia.jpg",year:2024,label:"Columbia",e:"🌸",badge:"New"},
+  {title:"HIT ME HARD AND SOFT",artist:"Billie Eilish",cover:"https://upload.wikimedia.org/wikipedia/en/b/b6/Billie_Eilish_-_HIT_ME_HARD_AND_SOFT.png",year:2024,label:"Interscope",e:"🖤",badge:"Grammy"},
+  {title:"The Great Impersonator",artist:"Halsey",cover:"",year:2024,label:"Capitol",e:"🌙",badge:"New"},
+  {title:"Romance",artist:"Fontaines D.C.",cover:"https://upload.wikimedia.org/wikipedia/en/9/9e/Fontaines_D.C._-_Romance.png",year:2024,label:"XL",e:"🇮🇪",badge:"BRIT Winner"},
+  {title:"Eternal Sunshine",artist:"Ariana Grande",cover:"https://upload.wikimedia.org/wikipedia/en/7/7f/Ariana_Grande_-_Eternal_Sunshine.png",year:2024,label:"Republic",e:"🌙",badge:"3x Platinum"},
+];
+
+const CONCERTS=[
+  {month:"JUL",day:"4",artist:"Billie Eilish",venue:"Madison Square Garden, NYC",price:"From $89"},
+  {month:"JUL",day:"11",artist:"Oasis",venue:"Wembley Stadium, London",price:"From £149"},
+  {month:"JUL",day:"19",artist:"BTS",venue:"Stade de France, Paris",price:"From €95"},
+  {month:"JUL",day:"25",artist:"Kendrick Lamar",venue:"SoFi Stadium, Los Angeles",price:"From $120"},
+  {month:"AUG",day:"2",artist:"Bad Bunny",venue:"Foro Sol, Mexico City",price:"From $75"},
+  {month:"AUG",day:"9",artist:"Burna Boy",venue:"O2 Arena, London",price:"From £85"},
+  {month:"AUG",day:"16",artist:"Sabrina Carpenter",venue:"Barclays Center, NYC",price:"From $95"},
+  {month:"AUG",day:"23",artist:"Taylor Swift",venue:"Aviva Stadium, Dublin",price:"From €110"},
+  {month:"SEP",day:"5",artist:"Chappell Roan",venue:"Hollywood Bowl, LA",price:"From $70"},
+  {month:"SEP",day:"12",artist:"The Weeknd",venue:"Rogers Centre, Toronto",price:"From CAD $95"},
+  {month:"SEP",day:"20",artist:"Coldplay",venue:"Camp Nou, Barcelona",price:"From €85"},
+  {month:"OCT",day:"3",artist:"Fred again..",venue:"Alexandra Palace, London",price:"From £55"},
+];
+
+const FESTIVALS=[
+  {title:"Glastonbury 2026",cat:"Festival",tag:"tag-rock",desc:"Kendrick Lamar, Dua Lipa & Radiohead headline. 200,000 attendees. June 25–29.",time:"Jun 25–29",src:"Glastonbury"},
+  {title:"Coachella 2026",cat:"Festival",tag:"tag-pop",desc:"Lady Gaga, The Weeknd, and Tyler, the Creator headline the 2026 desert festival.",time:"Apr 10–19",src:"Coachella"},
+  {title:"Rolling Loud Miami",cat:"Hip-Hop Festival",tag:"tag-hiphop",desc:"Kendrick Lamar, Travis Scott, and Future headline the world's largest hip-hop festival.",time:"Jul 18–20",src:"Rolling Loud"},
+  {title:"Primavera Sound 2026",cat:"Festival",tag:"tag-indie",desc:"Charli XCX, Vampire Weekend, and Arooj Aftab headline Barcelona's premier festival.",time:"May 28–Jun 1",src:"Primavera"},
+  {title:"Tomorrowland 2026",cat:"EDM Festival",tag:"tag-edm",desc:"Martin Garrix, Charlotte de Witte, and Anyma headline Europe's biggest dance festival.",time:"Jul 17–26",src:"Tomorrowland"},
+  {title:"Afropunk 2026",cat:"Festival",tag:"tag-afrobeats",desc:"Tems, Burna Boy, and Blood Orange headline the culturally iconic Afropunk festival.",time:"Aug 29–30",src:"Afropunk"},
+];
+
+const AWARDS={
+  grammys:[
+    {i:"🏆",c:"Record of the Year",w:"Not Like Us — Kendrick Lamar",n:"Birds of a Feather, Espresso, Saturn"},
+    {i:"💿",c:"Album of the Year",w:"Short n' Sweet — Sabrina Carpenter",n:"GNX, HIT ME HARD AND SOFT, Radical Optimism"},
+    {i:"⭐",c:"Best New Artist",w:"Chappell Roan",n:"Benson Boone, Gracie Abrams, Raye, Shaboozey"},
+    {i:"🎤",c:"Best Pop Vocal Album",w:"Short n' Sweet — Sabrina Carpenter",n:"Radical Optimism, Eternal Sunshine"},
+    {i:"🎸",c:"Best Rock Album",w:"From Zero — Linkin Park",n:"But Here We Are, Saviors, TANGK"},
+    {i:"🎧",c:"Best Rap Album",w:"GNX — Kendrick Lamar",n:"CHROMAKOPIA, MUSIC, Quaranta"},
+    {i:"🌍",c:"Best Global Music Album",w:"I Told Them… — Burna Boy",n:"Born in the Wild, Timeless"},
+    {i:"🎼",c:"Song of the Year",w:"Not Like Us — Kendrick Lamar",n:"Birds of a Feather, Espresso, Saturn"},
+  ],
+  vmas:[
+    {i:"🎥",c:"Video of the Year",w:"Pink Pony Club — Chappell Roan",n:"BIRDS OF A FEATHER, Espresso"},
+    {i:"🎤",c:"Artist of the Year",w:"Sabrina Carpenter",n:"Taylor Swift, SZA, Morgan Wallen"},
+    {i:"⭐",c:"Best New Artist",w:"Benson Boone",n:"Gracie Abrams, Shaboozey, RAYE"},
+    {i:"🌐",c:"Best Collaboration",w:"luther — Kendrick Lamar & SZA",n:"Die With A Smile, TQG"},
+    {i:"🎸",c:"Best Rock",w:"The Emptiness Machine — Linkin Park",n:"This Is Why, Not Waving"},
+    {i:"💃",c:"Best Dance/Electronic",w:"Volta — Fred again..",n:"Back To Life, Crush"},
+  ],
+  brit:[
+    {i:"🇬🇧",c:"British Album of the Year",w:"Romance — Fontaines D.C.",n:"Radical Optimism, The Car II"},
+    {i:"⭐",c:"British Artist of the Year",w:"Dua Lipa",n:"Hozier, Wet Leg, Fontaines D.C."},
+    {i:"🌍",c:"International Artist",w:"Chappell Roan",n:"Sabrina Carpenter, SZA"},
+    {i:"🆕",c:"Best New Artist",w:"CMAT",n:"Maisie Peters, Mae Muller"},
+    {i:"🎵",c:"Song of the Year",w:"Espresso — Sabrina Carpenter",n:"Not Like Us, Good Luck Babe!"},
+  ],
+  amas:[
+    {i:"🎵",c:"Artist of the Year",w:"Taylor Swift",n:"Morgan Wallen, Sabrina Carpenter"},
+    {i:"💿",c:"Favorite Pop Album",w:"Short n' Sweet — Sabrina Carpenter",n:"Eternal Sunshine, Radical Optimism"},
+    {i:"🎸",c:"Favorite Country Album",w:"Cowboys Cry Too — Kelsea Ballerini",n:"One Thing at a Time, Cowboy Carter"},
+    {i:"🎧",c:"Favorite Rap/Hip-Hop Album",w:"GNX — Kendrick Lamar",n:"CHROMAKOPIA, MUSIC"},
+    {i:"🌐",c:"Favorite Social Song",w:"Espresso — Sabrina Carpenter",n:"That's So True, APT."},
+    {i:"⭐",c:"New Artist of the Year",w:"Chappell Roan",n:"Benson Boone, Gracie Abrams"},
+  ],
+};
+
+const CALENDAR=[
+  {d:"Jul 4",e:"Billie Eilish x FINNEAS Album",t:"t-album"},
+  {d:"Jul 11",e:"Oasis Wembley Night 1",t:"t-tour"},
+  {d:"Jul 17",e:"Tomorrowland",t:"t-festival"},
+  {d:"Jul 25",e:"Kendrick GNX Tour — LA",t:"t-tour"},
+  {d:"Aug 2",e:"Bad Bunny Mexico City",t:"t-tour"},
+  {d:"Aug 9",e:"Beyoncé Reni III Preview",t:"t-album"},
+  {d:"Aug 29",e:"Afropunk Festival",t:"t-festival"},
+  {d:"Sep 12",e:"Beyoncé Renaissance III Out",t:"t-album"},
+];
+
+const TICKER_ITEMS=[
+  "🏆 Kendrick Lamar GNX Tour — 8M tickets sold in 12 hrs",
+  "🌹 Chappell Roan sweeps 2026 Grammy Awards with 5 wins",
+  "👸 Beyoncé confirms Renaissance III — September 12, 2026",
+  "🐰 Bad Bunny new album features Rosalía & Peso Pluma",
+  "🎸 Oasis Leg 2 North America — all 14 dates SOLD OUT",
+  "🎡 Glastonbury 2026: Kendrick · Dua Lipa · Radiohead",
+  "💜 BTS ARIRANG World Tour underway — European leg now live",
+  "🪐 SZA 'Lana' certified 5x Platinum",
+  "🖤 Billie Eilish surprise album July 4 with FINNEAS",
+  "🦁 Burna Boy breaks African stadium records in Paris",
+  "💚 Spotify hits 700 million monthly active users",
+  "☕ Sabrina Carpenter's Espresso passes 1.8 billion streams",
+  "🌹 BLACKPINK individually announce solo tours",
+  "⚡ Metallica M72 World Tour now in North America",
+  "🌙 The Weeknd confirms new album for Q4 2026",
+];
+
+// ═══════════════════════════════════════════════════════
+// STATE
+// ═══════════════════════════════════════════════════════
+let currentUser=null, notifs=[], activeGenre='All', currentArtistTab='trending',
+    artistPage=0, activeAward='grammys', newsRead=0, chatHistory=[];
+const ARTIST_PER_PAGE=20;
+
+// ═══════════════════════════════════════════════════════
+// TICKER
+// ═══════════════════════════════════════════════════════
+function buildTicker(){
+  const inner=document.getElementById('ticker-inner');
+  const items=[...TICKER_ITEMS,...TICKER_ITEMS];
+  inner.innerHTML=items.map(t=>`<span class="ticker-item">${t}</span>`).join('<span class="ticker-sep">·</span>');
+  // Duplicate for seamless loop
+  const track=document.getElementById('ticker-track');
+  track.appendChild(inner.cloneNode(true));
+}
+
+// ═══════════════════════════════════════════════════════
+// STATS ANIMATION
+// ═══════════════════════════════════════════════════════
+function animateStats(){
+  animNum('stat-artists',125000,'k',125);
+  animNum('stat-songs',8400000,'M',8.4);
+  animNum('stat-news',247,'',247);
+  animNum('stat-streams',4.2,'B',4.2,1);
+}
+function animNum(id,target,suffix,display,dec=0){
+  const el=document.getElementById(id);
+  if(!el)return;
+  let cur=0,steps=40;
+  const inc=display/steps;
+  const t=setInterval(()=>{
+    cur+=inc;
+    if(cur>=display){cur=display;clearInterval(t);}
+    el.textContent=(dec?cur.toFixed(dec):Math.floor(cur))+(suffix||'');
+  },30);
+}
+
+// ═══════════════════════════════════════════════════════
+// PAGES
+// ═══════════════════════════════════════════════════════
+function goPage(id){
+  document.querySelectorAll('.pv').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.nav-link').forEach(l=>l.classList.remove('active'));
+  const pv=document.getElementById('pv-'+id);
+  if(pv)pv.classList.add('active');
+  const nl=document.querySelector(`.nav-link[onclick="goPage('${id}')"]`);
+  if(nl)nl.classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+// ═══════════════════════════════════════════════════════
+// BILLBOARD HERO
+// ═══════════════════════════════════════════════════════
+function buildBillboardHero(){
+  const el=document.getElementById('bb-hero-wrap');
+  if(!el||ARTICLES.length<4)return;
+  const main=ARTICLES[0],sub1=ARTICLES[1],sub2=ARTICLES[2],sideItems=ARTICLES.slice(3,9);
+  const mainImg=NEWS_IMGS[main.tag]||NEWS_IMGS.default;
+  const sub1Img=NEWS_IMGS[sub1.tag]||NEWS_IMGS.default;
+  const sub2Img=NEWS_IMGS[sub2.tag]||NEWS_IMGS.default;
+  el.innerHTML=`
+    <div class="bb-main" onclick="window.open('${main.url||'#'}','_blank')">
+      <img class="bb-main-img" src="${mainImg}" alt="${main.title}" onerror="this.style.display='none'">
+      <div class="bb-main-ov"></div>
+      <div class="bb-main-cnt">
+        <span class="bb-top-badge">Top Story</span>
+        <div class="bb-main-title">${main.title}</div>
+        <div class="bb-main-by">${main.src} · ${main.time}</div>
+      </div>
+    </div>
+    <div>
+      <div class="bb-sub" onclick="window.open('${sub1.url||'#'}','_blank')">
+        <img class="bb-sub-img" src="${sub1Img}" alt="${sub1.title}" onerror="this.style.display='none'">
+        <div class="bb-sub-cnt">
+          <div class="bb-sub-cat">${sub1.cat}</div>
+          <div class="bb-sub-title">${sub1.title}</div>
+          <div class="bb-sub-meta">${sub1.src} · ${sub1.time}</div>
+        </div>
+      </div>
+      <div class="bb-sub" onclick="window.open('${sub2.url||'#'}','_blank')">
+        <img class="bb-sub-img" src="${sub2Img}" alt="${sub2.title}" onerror="this.style.display='none'">
+        <div class="bb-sub-cnt">
+          <div class="bb-sub-cat">${sub2.cat}</div>
+          <div class="bb-sub-title">${sub2.title}</div>
+          <div class="bb-sub-meta">${sub2.src} · ${sub2.time}</div>
+        </div>
+      </div>
+    </div>
+    <div class="bb-sidebar">
+      <div class="bb-sidebar-hdr">Latest News</div>
+      ${sideItems.map(a=>`
+        <div class="bb-side-item" onclick="window.open('${a.url||'#'}','_blank')">
+          <div class="bb-si-cat">${a.cat}</div>
+          <div class="bb-si-title">${a.title}</div>
+          <div class="bb-si-time">${a.src} · ${a.time}</div>
+        </div>
+      `).join('')}
+    </div>
+  `;
+}
+
+// ═══════════════════════════════════════════════════════
+// ARTIST RENDERING
+// ═══════════════════════════════════════════════════════
+function artistCardHTML(a,idx){
+  const photo=ARTIST_PHOTOS[a.n];
+  return `<div class="artist-card" onclick="searchArtistAI('${a.n}')">
+    <div class="a-photo">
+      ${photo?`<img src="${photo}" alt="${a.n}" loading="lazy" onerror="this.parentNode.innerHTML='<div class=\\'a-photo-fb\\'>${a.e}</div>'">`:`<div class="a-photo-fb">${a.e}</div>`}
+      <div class="a-photo-ov"></div>
+      ${a.rank?`<div class="a-rank">${a.rank}</div>`:''}
+    </div>
+    <div class="a-info">
+      <div class="a-name">${a.n}</div>
+      <div class="a-genre">${a.g}</div>
+      <div class="a-trend">▲ Trending</div>
+      <div class="a-streams">${a.s}</div>
+      ${a.u?`<div class="a-underground">Underground</div>`:''}
+    </div>
+  </div>`;
+}
+
+function buildArtistsHome(){
+  const el=document.getElementById('artists-home');
+  if(!el)return;
+  el.innerHTML=ARTIST_DB.trending.slice(0,10).map(artistCardHTML).join('');
+}
+
+function switchArtistTab(btn,tab){
+  document.querySelectorAll('#artist-tabs .tab').forEach(t=>t.classList.remove('active'));
+  btn.classList.add('active');
+  currentArtistTab=tab;
+  artistPage=0;
+  renderArtistPage();
+}
+
+function renderArtistPage(){
+  const el=document.getElementById('artists-full');
+  if(!el)return;
+  const data=ARTIST_DB[currentArtistTab]||ARTIST_DB.trending;
+  const start=artistPage*ARTIST_PER_PAGE,end=start+ARTIST_PER_PAGE;
+  el.innerHTML=data.slice(start,end).map(artistCardHTML).join('');
+  buildPagination(data.length,ARTIST_PER_PAGE,'artist-pagination',artistPage,p=>{artistPage=p;renderArtistPage();});
+}
+
+function buildPagination(total,perPage,elId,current,cb){
+  const el=document.getElementById(elId);
+  if(!el)return;
+  const pages=Math.ceil(total/perPage);
+  if(pages<=1){el.innerHTML='';return;}
+  el.innerHTML=Array.from({length:pages},(_,i)=>`<button class="page-btn${i===current?' active':''}" onclick="(${cb.toString()})(${i})">${i+1}</button>`).join('');
+}
+
+// ═══════════════════════════════════════════════════════
+// GENRE FILTER
+// ═══════════════════════════════════════════════════════
+const GENRES=['All','Pop','Hip-Hop','Rock','R&B','Electronic','Latin','K-Pop','Metal','Jazz','Folk','Afrobeats','Indie'];
+function buildGenreFilter(id){
+  const el=document.getElementById(id);
+  if(!el)return;
+  el.innerHTML=GENRES.map(g=>`<span class="genre-chip${g==='All'?' active':''}" onclick="filterGenre('${g}',this,'${id}')">${g}</span>`).join('');
+}
+function filterGenre(g,chip,containerId){
+  document.querySelectorAll(`#${containerId} .genre-chip`).forEach(c=>c.classList.remove('active'));
+  chip.classList.add('active');
+  activeGenre=g;
+  // Re-render relevant news
+  if(containerId==='gf-home') buildNewsGrid('news-home',6);
+  if(containerId==='gf-news') buildNewsGrid('news-full',ARTICLES.length);
+}
+
+// ═══════════════════════════════════════════════════════
+// NEWS
+// ═══════════════════════════════════════════════════════
+function buildNewsGrid(id,count){
+  const el=document.getElementById(id);
+  if(!el)return;
+  const all=[...LIVE_ARTICLES,...ARTICLES];
+  const filtered=activeGenre==='All'?all:all.filter(a=>a.cat&&a.cat.toLowerCase().includes(activeGenre.toLowerCase())||a.tag&&a.tag.includes(activeGenre.toLowerCase()));
+  el.innerHTML=filtered.slice(0,count).map(articleCardHTML).join('');
+}
+
+function articleCardHTML(a){
+  const img=a.img||(NEWS_IMGS[a.tag]||NEWS_IMGS.default);
+  return `<div class="article-card" onclick="openArticle('${encodeURIComponent(a.url||'#')}','${encodeURIComponent(a.title)}')">
+    <div class="ac-img">
+      <img src="${img}" alt="${a.title}" loading="lazy" onerror="this.style.display='none'">
+      <div class="ac-img-ov"></div>
+      <span class="ac-src">${a.src||'WorldMusicNow'}</span>
+      ${a.live?'<span class="ac-live">● LIVE</span>':''}
+    </div>
+    <div class="ac-body">
+      <div class="ac-cat ${a.tag||''}">${a.cat||'Music'}</div>
+      <div class="ac-title">${a.title}</div>
+      <div class="ac-exc">${a.desc||''}</div>
+      <div class="ac-foot"><span>${a.time||'Just now'} · ${a.read||'3 min'}</span><span class="ac-link">Read →</span></div>
+    </div>
+  </div>`;
+}
+
+function openArticle(url,title){
+  const decoded=decodeURIComponent(url);
+  if(decoded&&decoded!=='#'){window.open(decoded,'_blank');}
+  else{showToast('📰 '+decodeURIComponent(title));}
+  newsRead++;
+}
+
+// ═══════════════════════════════════════════════════════
+// SONGS
+// ═══════════════════════════════════════════════════════
+function buildSongs(tab){
+  const el=document.getElementById('songs-home');
+  if(!el)return;
+  const data=SONGS[tab]||SONGS.global;
+  el.innerHTML=data.map(s=>`
+    <div class="song-row">
+      <div class="s-rank${s.top?' top':''}">${s.r}</div>
+      <div class="s-thumb">${s.e}</div>
+      <div class="s-info"><div class="s-title">${s.t}</div><div class="s-artist">${s.a}</div></div>
+      <div class="s-meta">
+        <div class="s-streams">${s.s}</div>
+        <div class="s-change${s.c&&s.c.includes('↓')?' down':s.c==='→'?' same':''}">${s.c}</div>
+      </div>
+    </div>`).join('');
+}
+function switchSTab(btn,tab){document.querySelectorAll('#songs-tabs .tab').forEach(t=>t.classList.remove('active'));btn.classList.add('active');buildSongs(tab);}
+
+// ═══════════════════════════════════════════════════════
+// CALENDAR
+// ═══════════════════════════════════════════════════════
+function buildCalendar(){
+  const el=document.getElementById('cal-home');
+  if(!el)return;
+  el.innerHTML=CALENDAR.map(c=>`<div class="cal-card"><div class="cal-date">${c.d}</div><div class="cal-event">${c.e}</div><div class="cal-type ${c.t}">${c.t.replace('t-','').toUpperCase()}</div></div>`).join('');
+}
+
+// ═══════════════════════════════════════════════════════
+// ALBUMS
+// ═══════════════════════════════════════════════════════
+function buildAlbums(id,count){
+  const el=document.getElementById(id);
+  if(!el)return;
+  el.innerHTML=ALBUMS.slice(0,count).map(a=>`
+    <div class="album-card">
+      <div class="alb-cover">
+        ${a.cover?`<img src="${a.cover}" alt="${a.title}" loading="lazy" onerror="this.style.display='none'">`:''}
+        <div class="alb-cover-fb">${a.e}</div>
+      </div>
+      <div class="alb-info">
+        <div class="alb-title">${a.title}</div>
+        <div class="alb-artist">${a.artist}</div>
+        <div class="alb-meta"><span>${a.year}</span><span>${a.label}</span>${a.badge?`<span class="alb-badge">${a.badge}</span>`:''}</div>
+      </div>
+    </div>`).join('');
+}
+
+// ═══════════════════════════════════════════════════════
+// CONCERTS
+// ═══════════════════════════════════════════════════════
+function buildConcerts(){
+  const el=document.getElementById('concerts-list');
+  if(!el)return;
+  el.innerHTML=CONCERTS.map(c=>`
+    <div class="concert-row">
+      <div class="con-date-block"><div class="con-month">${c.month}</div><div class="con-day">${c.day}</div></div>
+      <div class="con-info"><div class="con-artist">${c.artist}</div><div class="con-venue">${c.venue}</div></div>
+      <div class="con-price">${c.price}</div>
+    </div>`).join('');
+}
+
+// ═══════════════════════════════════════════════════════
+// FESTIVALS
+// ═══════════════════════════════════════════════════════
+function buildFestivals(){
+  const el=document.getElementById('festivals-grid');
+  if(!el)return;
+  el.innerHTML=FESTIVALS.map(f=>articleCardHTML({...f,url:'#',time:f.time,read:'',src:f.src})).join('');
+}
+
+// ═══════════════════════════════════════════════════════
+// CHARTS TABLE
+// ═══════════════════════════════════════════════════════
+function switchCTab(btn,tab){
+  document.querySelectorAll('#pv-charts .tab').forEach(t=>t.classList.remove('active'));
+  btn.classList.add('active');
+  buildChartTable(tab);
+}
+function buildChartTable(tab){
+  const el=document.getElementById('chart-body');
+  if(!el)return;
+  const data=SONGS[tab]||SONGS.global;
+  el.innerHTML=data.map(s=>`
+    <tr>
+      <td><strong>${s.r}</strong></td>
+      <td><b>${s.t}</b></td>
+      <td>${s.a}</td>
+      <td>${s.r}</td>
+      <td>${Math.floor(Math.random()*20)+1}</td>
+      <td style="font-family:var(--font-m)">${s.s}</td>
+      <td style="color:${s.c&&s.c.includes('↓')?'var(--red)':s.c==='→'?'var(--dim)':'var(--green)'}">${s.c}</td>
+    </tr>`).join('');
+}
+
+// ═══════════════════════════════════════════════════════
+// AWARDS
+// ═══════════════════════════════════════════════════════
+function switchAward(btn,tab){
+  document.querySelectorAll('#pv-awards .tab').forEach(t=>t.classList.remove('active'));
+  btn.classList.add('active');
+  buildAwards(tab);
+}
+function buildAwards(tab){
+  const el=document.getElementById('awards-grid');
+  if(!el)return;
+  const data=AWARDS[tab]||[];
+  el.innerHTML=data.map(a=>`
+    <div class="award-card">
+      <div class="award-icon">${a.i}</div>
+      <div class="award-cat">${a.c}</div>
+      <div class="award-winner">${a.w}</div>
+      <div class="award-nom">Also nominated: ${a.n}</div>
+    </div>`).join('');
+}
+
+// ═══════════════════════════════════════════════════════
+// AI — MAIN PANEL (uses Anthropic API)
+// ═══════════════════════════════════════════════════════
+async function runAI(type){
+  const out=document.getElementById('ai-out');
+  out.textContent='';
+  out.classList.add('ai-typing');
+  const prompts={
+    top_song:`You are a real-time music intelligence system. Today is June 27, 2026. Search the web for the actual #1 most streamed song globally right now and tell us about it in detail — name, artist, how many streams, why it's popular, what chart positions it holds. Be specific and accurate.`,
+    brief:`You are WorldMusicNow's senior editor. Today is June 27, 2026. Give a concise but comprehensive daily music briefing covering: the biggest story in music right now, the #1 song globally, a major artist doing something interesting, and one trend to watch. Be specific with real names and real current events. Keep it to 4-5 sentences.`,
+    trend:`Today is June 27, 2026. What are the 3 most important trends in the global music industry right now? Include streaming numbers, genre movements, and specific artists driving these trends. Be specific and accurate.`,
+    spot:`Today is June 27, 2026. Pick one artist who is at the absolute peak of their career right now and give us a spotlight — current achievements, why the world is talking about them, their biggest recent songs, and what's coming next.`,
+  };
+  const prompt=prompts[type]||prompts.brief;
+  try{
+    const res=await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({
+        model:'claude-sonnet-4-6',
+        max_tokens:1000,
+        tools:[{type:'web_search_20250305',name:'web_search'}],
+        messages:[{role:'user',content:prompt}]
+      })
+    });
+    const data=await res.json();
+    const text=data.content.map(b=>b.type==='text'?b.text:'').filter(Boolean).join('\n').trim();
+    out.classList.remove('ai-typing');
+    out.textContent=text||'Music briefing unavailable — refresh to try again.';
+  }catch(e){
+    out.classList.remove('ai-typing');
+    out.textContent='Unable to load live briefing right now. Check back shortly.';
+  }
+}
+
+// ═══════════════════════════════════════════════════════
+// LIVE NEWS (AI + web search)
+// ═══════════════════════════════════════════════════════
+let newsLastFetched=null;
+async function fetchLiveNews(force=false){
+  if(!force&&newsLastFetched&&(Date.now()-newsLastFetched)<5*60*1000)return;
+  newsLastFetched=Date.now();
+  updateNewsRefreshBar();
+  document.getElementById('news-loading').style.display='block';
+  try{
+    const res=await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({
+        model:'claude-sonnet-4-6',
+        max_tokens:1000,
+        tools:[{type:'web_search_20250305',name:'web_search'}],
+        messages:[{role:'user',content:`Today is June 27, 2026. Search the web for the 6 most recent and important music news stories from the past 24 hours. For each story return a JSON object with these exact fields: title, cat (genre/category like "Hip-Hop", "Pop", "Rock"), tag (one of: tag-pop, tag-hiphop, tag-rock, tag-rb, tag-latin, tag-edm, tag-kpop, tag-metal, tag-afrobeats, tag-indie, tag-folk, tag-jazz), desc (2-sentence summary), time (how long ago), src (source name), url (actual URL if available). Return ONLY a valid JSON array, no other text, no markdown.`}]
+      })
+    });
+    const data=await res.json();
+    const text=data.content.map(b=>b.type==='text'?b.text:'').filter(Boolean).join('').trim();
+    let articles=[];
+    try{
+      const clean=text.replace(/```json|```/g,'').trim();
+      articles=JSON.parse(clean);
+    }catch(e){
+      // Use fallback
+    }
+    if(Array.isArray(articles)&&articles.length>0){
+      articles.forEach(a=>LIVE_ARTICLES.unshift({...a,live:true,img:NEWS_IMGS[a.tag]||NEWS_IMGS.default}));
+      if(LIVE_ARTICLES.length>30)LIVE_ARTICLES.splice(30);
+      buildBillboardHero();
+      buildNewsGrid('news-home',6);
+      buildNewsGrid('news-full',30);
+      addNotif('📰','Live News Updated',`${articles.length} new stories — ${articles[0].title.slice(0,50)}…`);
+      showToast(`📰 ${articles.length} new live stories loaded!`);
+    }
+  }catch(e){}
+  document.getElementById('news-loading').style.display='none';
+  updateNewsRefreshBar();
+}
+
+function updateNewsRefreshBar(){
+  const el=document.getElementById('nrb-time');
+  if(!el)return;
+  if(newsLastFetched){
+    const mins=Math.round((Date.now()-newsLastFetched)/60000);
+    el.textContent=mins<1?'Just now':`${mins}m ago`;
+  }else{el.textContent='Loading…';}
+}
+
+function startLiveNewsPolling(){
+  setInterval(()=>fetchLiveNews(false),10*60*1000);
+  setInterval(updateNewsRefreshBar,60000);
+}
+
+// ═══════════════════════════════════════════════════════
+// SEARCH
+// ═══════════════════════════════════════════════════════
+let searchTimeout;
+function globalSearch(q){
+  clearTimeout(searchTimeout);
+  const drop=document.getElementById('search-drop');
+  if(!q||q.length<2){drop.classList.remove('show');return;}
+  searchTimeout=setTimeout(()=>{
+    const all=Object.values(ARTIST_DB).flat();
+    const matches=all.filter(a=>a.n.toLowerCase().includes(q.toLowerCase())).slice(0,5);
+    if(!matches.length){drop.classList.remove('show');return;}
+    drop.innerHTML=matches.map(a=>{
+      const p=ARTIST_PHOTOS[a.n];
+      return `<div class="srd-item" onclick="goArtistFromSearch('${a.n}')">
+        <div class="srd-thumb">${p?`<img src="${p}" alt="${a.n}" onerror="this.textContent='${a.e}'">`:`<span>${a.e}</span>`}</div>
+        <div class="srd-info"><div class="srd-name">${a.n}</div><div class="srd-type">${a.g}</div></div>
+      </div>`;
+    }).join('')+`<div class="srd-ai-row" onclick="searchEnter('${q}')">🔍 Search all results for "${q}" →</div>`;
+    drop.classList.add('show');
+  },200);
+}
+function goArtistFromSearch(name){
+  document.getElementById('search-drop').classList.remove('show');
+  document.getElementById('global-search').value='';
+  goPage('artists');
+  setTimeout(()=>{
+    document.getElementById('artist-search').value=name;
+    searchArtistAI(name);
+  },100);
+}
+function searchEnter(q){
+  if(!q)return;
+  document.getElementById('search-drop').classList.remove('show');
+  document.getElementById('global-search').value='';
+  goPage('artists');
+  setTimeout(()=>{
+    document.getElementById('artist-search').value=q;
+    searchArtistAI(q);
+  },100);
+}
+document.addEventListener('click',e=>{
+  if(!e.target.closest('.search-wrap'))document.getElementById('search-drop').classList.remove('show');
+});
+
+// ═══════════════════════════════════════════════════════
+// ARTIST SEARCH (AI-powered)
+// ═══════════════════════════════════════════════════════
+let searchDebounce;
+function handleArtistSearch(q){
+  clearTimeout(searchDebounce);
+  if(!q){document.getElementById('artist-ai-result').style.display='none';renderArtistPage();return;}
+  searchDebounce=setTimeout(()=>{
+    const local=Object.values(ARTIST_DB).flat().filter(a=>a.n.toLowerCase().includes(q.toLowerCase()));
+    const el=document.getElementById('artists-full');
+    if(local.length&&el)el.innerHTML=local.slice(0,20).map(artistCardHTML).join('');
+  },200);
+}
+
+async function searchArtistAI(name){
+  if(!name.trim())return;
+  const resultEl=document.getElementById('artist-ai-result');
+  resultEl.style.display='block';
+  resultEl.innerHTML=`<div class="aac-info" style="padding:18px;display:flex;align-items:center;gap:10px"><div class="spin"></div><span style="color:var(--muted)">Loading full profile for "${name}" from online data…</span></div>`;
+  try{
+    const res=await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({
+        model:'claude-sonnet-4-6',
+        max_tokens:1000,
+        tools:[{type:'web_search_20250305',name:'web_search'}],
+        messages:[{role:'user',content:`Search the web for current information about the music artist "${name}" as of June 2026. Return a JSON object with these exact fields: name, genre, bio (3 sentences about their career, most famous works, current status), topSongs (array of 3 song titles), monthlyListeners (Spotify monthly listeners as string), awards (any major awards), links (object with keys: spotify, youtube, instagram — use real URLs if available, otherwise "#"). Return ONLY valid JSON, no markdown, no other text.`}]
+      })
+    });
+    const data=await res.json();
+    const text=data.content.map(b=>b.type==='text'?b.text:'').filter(Boolean).join('').trim();
+    let info;
+    try{info=JSON.parse(text.replace(/```json|```/g,'').trim());}catch(e){info=null;}
+    const photo=ARTIST_PHOTOS[name]||ARTIST_PHOTOS[info?.name]||null;
+    const localArtist=Object.values(ARTIST_DB).flat().find(a=>a.n.toLowerCase()===name.toLowerCase());
+    if(info){
+      resultEl.innerHTML=`<div class="ai-artist-card">
+        <div class="aac-photo">${photo?`<img src="${photo}" alt="${info.name}" onerror="this.textContent='🎵'">`:`<span>${localArtist?.e||'🎵'}</span>`}</div>
+        <div class="aac-info">
+          <div class="aac-name">${info.name||name}</div>
+          <div class="aac-genre">${info.genre||localArtist?.g||'Artist'} · ${info.monthlyListeners||''}</div>
+          <div class="aac-bio">${info.bio||''}</div>
+          ${info.topSongs?.length?`<div style="font-size:11px;color:var(--muted);margin-bottom:8px">Top songs: <strong style="color:var(--text)">${info.topSongs.join(' · ')}</strong></div>`:''}
+          ${info.awards?`<div style="font-size:11px;color:var(--gold);margin-bottom:10px">🏆 ${info.awards}</div>`:''}
+          <div class="aac-links">
+            ${info.links?.spotify&&info.links.spotify!=='#'?`<a class="aac-link" href="${info.links.spotify}" target="_blank">🎵 Spotify</a>`:''}
+            ${info.links?.youtube&&info.links.youtube!=='#'?`<a class="aac-link" href="${info.links.youtube}" target="_blank">▶ YouTube</a>`:''}
+            ${info.links?.instagram&&info.links.instagram!=='#'?`<a class="aac-link" href="${info.links.instagram}" target="_blank">📸 Instagram</a>`:''}
+            <button class="aac-link" onclick="chatAboutArtist('${info.name||name}')">💬 Ask AI</button>
+          </div>
+        </div>
+      </div>`;
+    }else{
+      resultEl.innerHTML=`<div style="padding:16px;color:var(--muted);font-size:13px">Could not load profile for "${name}". Try searching for a different spelling.</div>`;
+    }
+  }catch(e){
+    resultEl.innerHTML=`<div style="padding:16px;color:var(--muted);font-size:13px">Unable to load online data right now. Showing local results.</div>`;
+  }
+}
+
+function chatAboutArtist(name){
+  document.getElementById('ai-chat-input').value=`Tell me about ${name}`;
+  document.getElementById('ai-chat-win').classList.add('open');
+  sendChat();
+}
+
+// ═══════════════════════════════════════════════════════
+// AI CHAT
+// ═══════════════════════════════════════════════════════
+function toggleChat(){
+  const win=document.getElementById('ai-chat-win');
+  win.classList.toggle('open');
+  if(win.classList.contains('open'))document.getElementById('ai-chat-input').focus();
+}
+
+function chatSug(el){
+  document.getElementById('ai-chat-input').value=el.textContent;
+  el.closest('.ai-chat-suggestions').style.display='none';
+  sendChat();
+}
+
+function appendChatMsg(role,text){
+  const msgs=document.getElementById('ai-chat-msgs');
+  const div=document.createElement('div');
+  div.className=`chat-msg ${role}`;
+  div.textContent=text;
+  msgs.appendChild(div);
+  msgs.scrollTop=msgs.scrollHeight;
+  return div;
+}
+
+async function sendChat(){
+  const input=document.getElementById('ai-chat-input');
+  const q=input.value.trim();
+  if(!q)return;
+  input.value='';
+  document.getElementById('ai-chat-sugs').style.display='none';
+  appendChatMsg('user',q);
+  chatHistory.push({role:'user',content:q});
+  const thinking=appendChatMsg('ai','…');
+  try{
+    const messages=chatHistory.slice(-10);
+    // Add system context
+    const sysMsg={role:'user',content:`[Context: You are a music assistant for WorldMusicNow. Today is June 27, 2026. Be helpful, concise, and accurate about music. Use web search to find real current information when asked about specific songs, artists, charts, or recent events. Keep responses under 3 sentences unless more detail is clearly needed.]\n\nUser question: ${q}`};
+    const res=await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({
+        model:'claude-sonnet-4-6',
+        max_tokens:1000,
+        tools:[{type:'web_search_20250305',name:'web_search'}],
+        messages:[sysMsg]
+      })
+    });
+    const data=await res.json();
+    const text=data.content.map(b=>b.type==='text'?b.text:'').filter(Boolean).join('\n').trim();
+    thinking.textContent=text||'Sorry, I could not get an answer right now.';
+    chatHistory.push({role:'assistant',content:text});
+  }catch(e){
+    thinking.textContent='Connection issue — try again in a moment.';
+  }
+}
+
+// ═══════════════════════════════════════════════════════
+// NOTIFICATIONS
+// ═══════════════════════════════════════════════════════
+function toggleNotif(){
+  const p=document.getElementById('np');
+  p.classList.toggle('show');
+  if(p.classList.contains('show')){
+    notifs=notifs.map(n=>({...n,unread:false}));
+    renderNotifs();
+    setTimeout(()=>document.addEventListener('click',function h(e){if(!document.getElementById('np').contains(e.target)&&!document.getElementById('notif-btn').contains(e.target)){document.getElementById('np').classList.remove('show');document.removeEventListener('click',h);}},50));
+  }
+}
+function addNotif(icon,title,body){
+  const n={icon,title,body,time:new Date().toLocaleTimeString(),unread:true,id:Date.now()};
+  notifs.unshift(n);if(notifs.length>30)notifs.pop();
+  renderNotifs();
+}
+function renderNotifs(){
+  const unread=notifs.filter(n=>n.unread).length;
+  const badge=document.getElementById('nbadge');
+  badge.textContent=unread||'';
+  badge.classList.toggle('show',unread>0);
+  const list=document.getElementById('np-list');
+  if(!notifs.length){list.innerHTML='<div style="padding:24px;text-align:center;color:var(--dim);font-size:12px">No notifications yet.</div>';return;}
+  list.innerHTML=notifs.map(n=>`<div class="np-item${n.unread?' unread':''}"><span class="np-icon">${n.icon}</span><div><div class="np-txt"><strong>${n.title}</strong> — ${n.body}</div><div class="np-time">${n.time}</div></div></div>`).join('');
+}
+function clearNotifs(){notifs=[];renderNotifs();}
+
+// ═══════════════════════════════════════════════════════
+// LANGUAGE
+// ═══════════════════════════════════════════════════════
+async function changeLang(lang){
+  if(lang==='en')return;
+  const labels={
+    fr:{home:'Accueil',news:'Actualités',artists:'Artistes',charts:'Classements',albums:'Albums'},
+    de:{home:'Startseite',news:'Nachrichten',artists:'Künstler',charts:'Charts',albums:'Alben'},
+    es:{home:'Inicio',news:'Noticias',artists:'Artistas',charts:'Listas',albums:'Álbumes'},
+    it:{home:'Home',news:'Notizie',artists:'Artisti',charts:'Classifiche',albums:'Album'},
+    pt:{home:'Início',news:'Notícias',artists:'Artistas',charts:'Paradas',albums:'Álbuns'},
+    ro:{home:'Acasă',news:'Știri',artists:'Artiști',charts:'Topuri',albums:'Albume'},
+    ko:{home:'홈',news:'뉴스',artists:'아티스트',charts:'차트',albums:'앨범'},
+    ja:{home:'ホーム',news:'ニュース',artists:'アーティスト',charts:'チャート',albums:'アルバム'},
+    zh:{home:'主页',news:'新闻',artists:'艺人',charts:'排行榜',albums:'专辑'},
+  };
+  const l=labels[lang];
+  if(l){
+    const links=document.querySelectorAll('.nav-link');
+    const pages=['home','news','artists','charts','albums'];
+    links.forEach((link,i)=>{if(pages[i]&&l[pages[i]])link.textContent=l[pages[i]];});
+  }
+  showToast('🌐 Language changed!');
+}
+
+// ═══════════════════════════════════════════════════════
+// AUTH
+// ═══════════════════════════════════════════════════════
+function openAuth(tab){document.getElementById('auth-modal').classList.add('show');switchAuthTab(tab);}
+function closeAuth(){document.getElementById('auth-modal').classList.remove('show');}
+function switchAuthTab(tab){
+  document.querySelectorAll('.modal-tab').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.modal-form').forEach(f=>f.classList.remove('active'));
+  document.getElementById('mtab-'+tab).classList.add('active');
+  document.getElementById('mf-'+tab).classList.add('active');
+}
+document.getElementById('auth-modal').addEventListener('click',e=>{if(e.target===document.getElementById('auth-modal'))closeAuth();});
+
+function register(){
+  const name=document.getElementById('r-name').value.trim();
+  const email=document.getElementById('r-email').value.trim();
+  const pass=document.getElementById('r-pass').value;
+  if(!name){showToast('⚠️ Enter your name');return;}
+  if(!email||!email.includes('@')){showToast('⚠️ Enter a valid email');return;}
+  if(pass.length<6){showToast('⚠️ Password must be 6+ characters');return;}
+  const users=JSON.parse(localStorage.getItem('wmn_users')||'[]');
+  if(users.find(u=>u.email===email)){showToast('⚠️ Email already registered');return;}
+  users.push({name,email,pass,joined:Date.now(),bio:'',favorites:[]});
+  localStorage.setItem('wmn_users',JSON.stringify(users));
+  setUser({name,email,joined:Date.now(),bio:'',favorites:[]});
+  closeAuth();showToast('🎉 Welcome, '+name+'!');
+  addNotif('👋','Welcome!','Your account is ready. Explore the music.');
+}
+function login(){
+  const email=document.getElementById('l-email').value.trim();
+  const pass=document.getElementById('l-pass').value;
+  const users=JSON.parse(localStorage.getItem('wmn_users')||'[]');
+  const user=users.find(u=>u.email===email&&u.pass===pass);
+  if(!user){showToast('⚠️ Incorrect email or password');return;}
+  setUser(user);closeAuth();showToast('👋 Welcome back, '+user.name+'!');
+}
+function setUser(u){
+  currentUser=u;localStorage.setItem('wmn_cu',JSON.stringify(u));
+  document.getElementById('signin-btn').style.display='none';
+  document.getElementById('join-btn').style.display='none';
+  const av=document.getElementById('uavatar');
+  av.classList.add('show');av.textContent=u.name.charAt(0).toUpperCase();
+  updateProfilePage();
+}
+function loadUser(){
+  const s=localStorage.getItem('wmn_cu');
+  if(s)try{setUser(JSON.parse(s));}catch(e){}
+}
+function signOut(){
+  currentUser=null;localStorage.removeItem('wmn_cu');
+  document.getElementById('signin-btn').style.display='';
+  document.getElementById('join-btn').style.display='';
+  document.getElementById('uavatar').classList.remove('show');
+  goPage('home');showToast('👋 Signed out.');
+}
+function deleteAccount(){
+  if(currentUser){
+    const users=JSON.parse(localStorage.getItem('wmn_users')||'[]').filter(u=>u.email!==currentUser.email);
+    localStorage.setItem('wmn_users',JSON.stringify(users));
+  }
+  signOut();
+}
+
+// ═══════════════════════════════════════════════════════
+// PROFILE
+// ═══════════════════════════════════════════════════════
+function updateProfilePage(){
+  if(!currentUser)return;
+  document.getElementById('profile-avatar-letter').textContent=currentUser.name.charAt(0).toUpperCase();
+  document.getElementById('profile-name-big').textContent=currentUser.name;
+  document.getElementById('profile-email-big').textContent=currentUser.email;
+  document.getElementById('s-name').value=currentUser.name||'';
+  document.getElementById('s-email').value=currentUser.email||'';
+  document.getElementById('s-bio').value=currentUser.bio||'';
+  document.getElementById('ov-saved').textContent=(currentUser.favorites||[]).length;
+  document.getElementById('ov-news').textContent=newsRead;
+  buildFavArtists();
+}
+
+function switchProfileTab(el,tab){
+  document.querySelectorAll('.profile-nav-item').forEach(i=>i.classList.remove('active'));
+  el.classList.add('active');
+  document.querySelectorAll('.profile-section').forEach(s=>s.classList.remove('active'));
+  document.getElementById('ps-'+tab).classList.add('active');
+}
+
+function saveSettings(){
+  if(!currentUser){showToast('⚠️ Sign in first');return;}
+  currentUser.name=document.getElementById('s-name').value.trim()||currentUser.name;
+  currentUser.email=document.getElementById('s-email').value.trim()||currentUser.email;
+  currentUser.bio=document.getElementById('s-bio').value;
+  const users=JSON.parse(localStorage.getItem('wmn_users')||'[]').map(u=>u.email===currentUser.email?{...u,...currentUser}:u);
+  localStorage.setItem('wmn_users',JSON.stringify(users));
+  localStorage.setItem('wmn_cu',JSON.stringify(currentUser));
+  updateProfilePage();
+  showToast('✅ Settings saved!');
+}
+
+function buildFavArtists(){
+  const el=document.getElementById('fav-artists-grid');
+  if(!el)return;
+  const fav=currentUser?.favorites||[];
+  const all=ARTIST_DB.trending.slice(0,12);
+  el.innerHTML=all.map(a=>`
+    <div class="fav-chip${fav.includes(a.n)?' selected':''}" onclick="toggleFav('${a.n}',this)">
+      <span class="fav-chip-emoji">${a.e}</span>
+      <div class="fav-chip-name">${a.n}</div>
+      <span class="fav-rm" onclick="event.stopPropagation();toggleFav('${a.n}',this.parentNode)">×</span>
+    </div>`).join('');
+}
+
+function toggleFav(name,el){
+  if(!currentUser){openAuth('register');return;}
+  const fav=currentUser.favorites||[];
+  const idx=fav.indexOf(name);
+  if(idx>-1)fav.splice(idx,1);
+  else if(fav.length<10)fav.push(name);
+  else{showToast('⚠️ Max 10 favorites');return;}
+  currentUser.favorites=fav;
+  localStorage.setItem('wmn_cu',JSON.stringify(currentUser));
+  buildFavArtists();
+  document.getElementById('ov-saved').textContent=fav.length;
+}
+
+// ═══════════════════════════════════════════════════════
+// APPEARANCE
+// ═══════════════════════════════════════════════════════
+function setAccent(color,color2){
+  document.documentElement.style.setProperty('--green',color);
+  document.documentElement.style.setProperty('--cyan',color2);
+  document.querySelectorAll('.color-swatch').forEach(s=>s.classList.remove('active'));
+  event.target.classList.add('active');
+  showToast('🎨 Accent color updated!');
+  if(currentUser){currentUser.accent=color;localStorage.setItem('wmn_cu',JSON.stringify(currentUser));}
+}
+function setFontSize(size){document.body.style.fontSize=size+'px';}
+function toggleCompact(btn){btn.classList.toggle('on');document.body.style.lineHeight=btn.classList.contains('on')?'1.4':'1.6';}
+function toggleAnim(btn){btn.classList.toggle('on');}
+
+// ═══════════════════════════════════════════════════════
+// TOAST
+// ═══════════════════════════════════════════════════════
+function showToast(msg){
+  const t=document.getElementById('toast');
+  t.textContent=msg;t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),3400);
+}
+
+// ═══════════════════════════════════════════════════════
+// SUBSCRIBE
+// ═══════════════════════════════════════════════════════
+function subscribe(){
+  const v=document.getElementById('nl-email').value;
+  if(v&&v.includes('@')){showToast('🎵 Subscribed! Daily briefing incoming.');document.getElementById('nl-email').value='';}
+  else showToast('⚠️ Enter a valid email');
+}
+
+// ═══════════════════════════════════════════════════════
+// SCROLL ANIMATIONS
+// ═══════════════════════════════════════════════════════
+function setupScrollAnim(){
+  const obs=new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible');}),{threshold:.08});
+  document.querySelectorAll('.fi-section').forEach(el=>obs.observe(el));
+}
+
+// ═══════════════════════════════════════════════════════
+// INIT
+// ═══════════════════════════════════════════════════════
+function init(){
+  loadUser();
+  buildTicker();
+  buildBillboardHero();
+  buildArtistsHome();
+  buildGenreFilter('gf-home');
+  buildGenreFilter('gf-news');
+  buildNewsGrid('news-home',6);
+  buildNewsGrid('news-full',ARTICLES.length);
+  buildSongs('global');
+  buildCalendar();
+  buildAlbums('albums-home',8);
+  buildAlbums('albums-full',ALBUMS.length);
+  buildConcerts();
+  buildFestivals();
+  buildAwards('grammys');
+  buildChartTable('global');
+  renderArtistPage();
+  animateStats();
+  setupScrollAnim();
+  fetchLiveNews(false);
+  startLiveNewsPolling();
+  runAI('brief');
+  addNotif('🎵','Welcome to WorldMusicNow','Live music intelligence, 24/7. Explore charts, artists, and breaking news.');
+  renderNotifs();
+  // Apply saved accent
+  const saved=localStorage.getItem('wmn_cu');
+  if(saved)try{const u=JSON.parse(saved);if(u.accent)document.documentElement.style.setProperty('--green',u.accent);}catch(e){}
+}
+
+window.addEventListener('load',init);
+</script>
+</body>
+</html>
